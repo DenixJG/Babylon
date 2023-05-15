@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -40,6 +41,11 @@ define('APP_DIR', 'src');
  * Path to the application's directory.
  */
 define('APP', ROOT . DS . APP_DIR . DS);
+
+/**
+ * Path to the project's plugins directory.
+ */
+define('APP_PLUGINS', ROOT . DS . 'plugins' . DS);
 
 /*
  * Path to the config directory.

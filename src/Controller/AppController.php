@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,9 +15,11 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Event\EventInterface;
 
 /**
  * Application Controller
@@ -28,6 +31,12 @@ use Cake\Controller\Controller;
  */
 class AppController extends Controller
 {
+    /** @var string Menu to set active */
+    protected $menu = 'home';
+
+    /** @var string Submenu to set active */
+    protected $submenu = 'home';
+
     /**
      * Initialization hook method.
      *
@@ -49,5 +58,14 @@ class AppController extends Controller
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+    }
+
+    public function beforeRender(EventInterface $event)
+    {
+        $this->viewBuilder()->setTheme('Craft');
+        $this->viewBuilder()->addHelper('Svg'); // Load SvgHelper only for Craft theme
+
+        $this->set('menu', $this->menu);
+        $this->set('submenu', $this->submenu);
     }
 }

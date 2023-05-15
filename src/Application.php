@@ -63,7 +63,8 @@ class Application extends BaseApplication
             $this->addPlugin('DebugKit');
         }
 
-        // Load more plugins here
+        // Load more plugins here        
+        $this->addPlugin('Craft');
     }
 
     /**
