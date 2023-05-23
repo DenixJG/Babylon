@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\RolesController;
+use App\Controller\MovieDirectorsController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\RolesController Test Case
+ * App\Controller\MovieDirectorsController Test Case
  *
- * @uses \App\Controller\RolesController
+ * @uses \App\Controller\MovieDirectorsController
  */
-class RolesControllerTest extends TestCase
+class MovieDirectorsControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
@@ -22,14 +22,16 @@ class RolesControllerTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.Roles',
+        'app.MovieDirectors',
+        'app.Movies',
+        'app.Directors',
     ];
 
     /**
      * Test index method
      *
      * @return void
-     * @uses \App\Controller\RolesController::index()
+     * @uses \App\Controller\MovieDirectorsController::index()
      */
     public function testIndex(): void
     {
@@ -40,7 +42,7 @@ class RolesControllerTest extends TestCase
      * Test view method
      *
      * @return void
-     * @uses \App\Controller\RolesController::view()
+     * @uses \App\Controller\MovieDirectorsController::view()
      */
     public function testView(): void
     {
@@ -51,7 +53,7 @@ class RolesControllerTest extends TestCase
      * Test add method
      *
      * @return void
-     * @uses \App\Controller\RolesController::add()
+     * @uses \App\Controller\MovieDirectorsController::add()
      */
     public function testAdd(): void
     {
@@ -62,7 +64,7 @@ class RolesControllerTest extends TestCase
      * Test edit method
      *
      * @return void
-     * @uses \App\Controller\RolesController::edit()
+     * @uses \App\Controller\MovieDirectorsController::edit()
      */
     public function testEdit(): void
     {
@@ -73,7 +75,7 @@ class RolesControllerTest extends TestCase
      * Test delete method
      *
      * @return void
-     * @uses \App\Controller\RolesController::delete()
+     * @uses \App\Controller\MovieDirectorsController::delete()
      */
     public function testDelete(): void
     {

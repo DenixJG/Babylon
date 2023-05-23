@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\RolesController;
+use App\Controller\ShowStatusesController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\RolesController Test Case
+ * App\Controller\ShowStatusesController Test Case
  *
- * @uses \App\Controller\RolesController
+ * @uses \App\Controller\ShowStatusesController
  */
-class RolesControllerTest extends TestCase
+class ShowStatusesControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
@@ -22,14 +22,14 @@ class RolesControllerTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.Roles',
+        'app.ShowStatuses',
     ];
 
     /**
      * Test index method
      *
      * @return void
-     * @uses \App\Controller\RolesController::index()
+     * @uses \App\Controller\ShowStatusesController::index()
      */
     public function testIndex(): void
     {
@@ -40,7 +40,7 @@ class RolesControllerTest extends TestCase
      * Test view method
      *
      * @return void
-     * @uses \App\Controller\RolesController::view()
+     * @uses \App\Controller\ShowStatusesController::view()
      */
     public function testView(): void
     {
@@ -51,7 +51,7 @@ class RolesControllerTest extends TestCase
      * Test add method
      *
      * @return void
-     * @uses \App\Controller\RolesController::add()
+     * @uses \App\Controller\ShowStatusesController::add()
      */
     public function testAdd(): void
     {
@@ -62,7 +62,7 @@ class RolesControllerTest extends TestCase
      * Test edit method
      *
      * @return void
-     * @uses \App\Controller\RolesController::edit()
+     * @uses \App\Controller\ShowStatusesController::edit()
      */
     public function testEdit(): void
     {
@@ -73,7 +73,7 @@ class RolesControllerTest extends TestCase
      * Test delete method
      *
      * @return void
-     * @uses \App\Controller\RolesController::delete()
+     * @uses \App\Controller\ShowStatusesController::delete()
      */
     public function testDelete(): void
     {

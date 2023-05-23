@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\RolesController;
+use App\Controller\LastWatchedEpisodesController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\RolesController Test Case
+ * App\Controller\LastWatchedEpisodesController Test Case
  *
- * @uses \App\Controller\RolesController
+ * @uses \App\Controller\LastWatchedEpisodesController
  */
-class RolesControllerTest extends TestCase
+class LastWatchedEpisodesControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
@@ -22,14 +22,15 @@ class RolesControllerTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.Roles',
+        'app.LastWatchedEpisodes',
+        'app.Episodes',
     ];
 
     /**
      * Test index method
      *
      * @return void
-     * @uses \App\Controller\RolesController::index()
+     * @uses \App\Controller\LastWatchedEpisodesController::index()
      */
     public function testIndex(): void
     {
@@ -40,7 +41,7 @@ class RolesControllerTest extends TestCase
      * Test view method
      *
      * @return void
-     * @uses \App\Controller\RolesController::view()
+     * @uses \App\Controller\LastWatchedEpisodesController::view()
      */
     public function testView(): void
     {
@@ -51,7 +52,7 @@ class RolesControllerTest extends TestCase
      * Test add method
      *
      * @return void
-     * @uses \App\Controller\RolesController::add()
+     * @uses \App\Controller\LastWatchedEpisodesController::add()
      */
     public function testAdd(): void
     {
@@ -62,7 +63,7 @@ class RolesControllerTest extends TestCase
      * Test edit method
      *
      * @return void
-     * @uses \App\Controller\RolesController::edit()
+     * @uses \App\Controller\LastWatchedEpisodesController::edit()
      */
     public function testEdit(): void
     {
@@ -73,7 +74,7 @@ class RolesControllerTest extends TestCase
      * Test delete method
      *
      * @return void
-     * @uses \App\Controller\RolesController::delete()
+     * @uses \App\Controller\LastWatchedEpisodesController::delete()
      */
     public function testDelete(): void
     {

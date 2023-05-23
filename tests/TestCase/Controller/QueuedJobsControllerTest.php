@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\RolesController;
+use App\Controller\QueuedJobsController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\RolesController Test Case
+ * App\Controller\QueuedJobsController Test Case
  *
- * @uses \App\Controller\RolesController
+ * @uses \App\Controller\QueuedJobsController
  */
-class RolesControllerTest extends TestCase
+class QueuedJobsControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
@@ -22,14 +22,14 @@ class RolesControllerTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.Roles',
+        'app.QueuedJobs',
     ];
 
     /**
      * Test index method
      *
      * @return void
-     * @uses \App\Controller\RolesController::index()
+     * @uses \App\Controller\QueuedJobsController::index()
      */
     public function testIndex(): void
     {
@@ -40,7 +40,7 @@ class RolesControllerTest extends TestCase
      * Test view method
      *
      * @return void
-     * @uses \App\Controller\RolesController::view()
+     * @uses \App\Controller\QueuedJobsController::view()
      */
     public function testView(): void
     {
@@ -51,7 +51,7 @@ class RolesControllerTest extends TestCase
      * Test add method
      *
      * @return void
-     * @uses \App\Controller\RolesController::add()
+     * @uses \App\Controller\QueuedJobsController::add()
      */
     public function testAdd(): void
     {
@@ -62,7 +62,7 @@ class RolesControllerTest extends TestCase
      * Test edit method
      *
      * @return void
-     * @uses \App\Controller\RolesController::edit()
+     * @uses \App\Controller\QueuedJobsController::edit()
      */
     public function testEdit(): void
     {
@@ -73,7 +73,7 @@ class RolesControllerTest extends TestCase
      * Test delete method
      *
      * @return void
-     * @uses \App\Controller\RolesController::delete()
+     * @uses \App\Controller\QueuedJobsController::delete()
      */
     public function testDelete(): void
     {

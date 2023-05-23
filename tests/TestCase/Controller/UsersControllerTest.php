@@ -40,4 +40,48 @@ class UsersControllerTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test view method
+     *
+     * @return void
+     * @uses \App\Controller\UsersController::view()
+     */
+    public function testView(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test add method
+     *
+     * @return void
+     * @uses \App\Controller\UsersController::add()
+     */
+    public function testAdd(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test edit method
+     *
+     * @return void
+     * @uses \App\Controller\UsersController::edit()
+     */
+    public function testEdit(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test delete method
+     *
+     * @return void
+     * @uses \App\Controller\UsersController::delete()
+     */
+    public function testDelete(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

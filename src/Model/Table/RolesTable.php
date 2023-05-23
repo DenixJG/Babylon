@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -65,5 +66,19 @@ class RolesTable extends Table
             ->notEmptyString('is_user');
 
         return $validator;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function getAllRoles()
+    {
+        $roles = $this->find('all', [
+            'order' => ['name' => 'ASC']
+        ]);
+
+        return $roles;
     }
 }

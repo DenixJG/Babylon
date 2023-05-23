@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\RolesController;
+use App\Controller\SeasonsController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\RolesController Test Case
+ * App\Controller\SeasonsController Test Case
  *
- * @uses \App\Controller\RolesController
+ * @uses \App\Controller\SeasonsController
  */
-class RolesControllerTest extends TestCase
+class SeasonsControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
@@ -22,14 +22,16 @@ class RolesControllerTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.Roles',
+        'app.Seasons',
+        'app.Shows',
+        'app.Episodes',
     ];
 
     /**
      * Test index method
      *
      * @return void
-     * @uses \App\Controller\RolesController::index()
+     * @uses \App\Controller\SeasonsController::index()
      */
     public function testIndex(): void
     {
@@ -40,7 +42,7 @@ class RolesControllerTest extends TestCase
      * Test view method
      *
      * @return void
-     * @uses \App\Controller\RolesController::view()
+     * @uses \App\Controller\SeasonsController::view()
      */
     public function testView(): void
     {
@@ -51,7 +53,7 @@ class RolesControllerTest extends TestCase
      * Test add method
      *
      * @return void
-     * @uses \App\Controller\RolesController::add()
+     * @uses \App\Controller\SeasonsController::add()
      */
     public function testAdd(): void
     {
@@ -62,7 +64,7 @@ class RolesControllerTest extends TestCase
      * Test edit method
      *
      * @return void
-     * @uses \App\Controller\RolesController::edit()
+     * @uses \App\Controller\SeasonsController::edit()
      */
     public function testEdit(): void
     {
@@ -73,7 +75,7 @@ class RolesControllerTest extends TestCase
      * Test delete method
      *
      * @return void
-     * @uses \App\Controller\RolesController::delete()
+     * @uses \App\Controller\SeasonsController::delete()
      */
     public function testDelete(): void
     {

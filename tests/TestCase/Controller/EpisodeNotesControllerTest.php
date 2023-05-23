@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\RolesController;
+use App\Controller\EpisodeNotesController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\RolesController Test Case
+ * App\Controller\EpisodeNotesController Test Case
  *
- * @uses \App\Controller\RolesController
+ * @uses \App\Controller\EpisodeNotesController
  */
-class RolesControllerTest extends TestCase
+class EpisodeNotesControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
@@ -22,14 +22,16 @@ class RolesControllerTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.Roles',
+        'app.EpisodeNotes',
+        'app.Episodes',
+        'app.Users',
     ];
 
     /**
      * Test index method
      *
      * @return void
-     * @uses \App\Controller\RolesController::index()
+     * @uses \App\Controller\EpisodeNotesController::index()
      */
     public function testIndex(): void
     {
@@ -40,7 +42,7 @@ class RolesControllerTest extends TestCase
      * Test view method
      *
      * @return void
-     * @uses \App\Controller\RolesController::view()
+     * @uses \App\Controller\EpisodeNotesController::view()
      */
     public function testView(): void
     {
@@ -51,7 +53,7 @@ class RolesControllerTest extends TestCase
      * Test add method
      *
      * @return void
-     * @uses \App\Controller\RolesController::add()
+     * @uses \App\Controller\EpisodeNotesController::add()
      */
     public function testAdd(): void
     {
@@ -62,7 +64,7 @@ class RolesControllerTest extends TestCase
      * Test edit method
      *
      * @return void
-     * @uses \App\Controller\RolesController::edit()
+     * @uses \App\Controller\EpisodeNotesController::edit()
      */
     public function testEdit(): void
     {
@@ -73,7 +75,7 @@ class RolesControllerTest extends TestCase
      * Test delete method
      *
      * @return void
-     * @uses \App\Controller\RolesController::delete()
+     * @uses \App\Controller\EpisodeNotesController::delete()
      */
     public function testDelete(): void
     {

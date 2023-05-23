@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -117,5 +118,17 @@ class UsersTable extends Table
         $rules->add($rules->existsIn('roles_id', 'Roles'), ['errorField' => 'roles_id']);
 
         return $rules;
+    }
+
+    /**
+     * Returns all users from the database
+     *
+     * @return \App\Model\Entity\User[]|null
+     */
+    public function getAllUsers()
+    {
+        $users = $this->find('all')->toArray();
+
+        return $users;
     }
 }
