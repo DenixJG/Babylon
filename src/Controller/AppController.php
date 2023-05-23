@@ -62,7 +62,6 @@ class AppController extends Controller
 
     public function beforeRender(EventInterface $event)
     {
-        $this->viewBuilder()->setTheme('Craft');
         $this->viewBuilder()->addHelper('Svg'); // Load SvgHelper only for Craft theme
 
         $this->set('menu', $this->menu);
