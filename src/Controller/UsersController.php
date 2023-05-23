@@ -18,6 +18,7 @@ class UsersController extends AppController
 
         $this->menu = 'management';
         $this->submenu = 'users';
+        $this->section_title = 'User Management';
     }
 
     /**

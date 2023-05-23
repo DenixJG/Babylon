@@ -37,6 +37,8 @@ class AppController extends Controller
     /** @var string Submenu to set active */
     protected $submenu = 'home';
 
+    protected $section_title = 'Home';
+
     /**
      * Initialization hook method.
      *
@@ -66,5 +68,6 @@ class AppController extends Controller
 
         $this->set('menu', $this->menu);
         $this->set('submenu', $this->submenu);
+        $this->set('section_title', $this->section_title);
     }
 }

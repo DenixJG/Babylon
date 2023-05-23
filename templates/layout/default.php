@@ -170,18 +170,12 @@
                             <!--begin::Info-->
                             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                                 <!--begin::Title-->
-                                <h1 class="text-dark fw-bolder my-1 fs-2">Dashboard
+                                <h1 class="text-dark fw-bolder my-1 fs-2"><?= $section_title ?>
                                     <small class="text-muted fs-6 fw-normal ms-1"></small>
                                 </h1>
                                 <!--end::Title-->
                                 <!--begin::Breadcrumb-->
-                                <ul class="breadcrumb fw-bold fs-base my-1">
-                                    <li class="breadcrumb-item text-muted">
-                                        <a href="../dist/index.html" class="text-muted text-hover-primary">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item text-muted">Dashboards</li>
-                                    <li class="breadcrumb-item text-dark">Default</li>
-                                </ul>
+                                <?= $this->Breadcrumbs->render() ?>
                                 <!--end::Breadcrumb-->
                             </div>
                             <!--end::Info-->
