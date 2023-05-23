@@ -18,7 +18,7 @@ class RolesController extends AppController
 
         $this->menu = 'management';
         $this->submenu = 'roles';
-        $this->section_title = 'User Management';
+        $this->section_title = 'Roles';
     }
 
     /**
@@ -28,7 +28,7 @@ class RolesController extends AppController
      */
     public function index()
     {
-        $roles = $this->paginate($this->Roles);
+        $roles = $this->paginate($this->Roles)->toArray();
 
         $this->set(compact('roles'));
     }

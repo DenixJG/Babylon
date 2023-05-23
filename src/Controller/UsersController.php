@@ -17,8 +17,8 @@ class UsersController extends AppController
         parent::initialize();
 
         $this->menu = 'management';
-        $this->submenu = 'roles';
-        $this->section_title = 'User Management';
+        $this->submenu = 'users';
+        $this->section_title = 'Users';
     }
 
     /**
