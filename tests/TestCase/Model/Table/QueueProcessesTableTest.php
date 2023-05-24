@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\RolesTable;
+use App\Model\Table\QueueProcessesTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\RolesTable Test Case
+ * App\Model\Table\QueueProcessesTable Test Case
  */
-class RolesTableTest extends TestCase
+class QueueProcessesTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\RolesTable
+     * @var \App\Model\Table\QueueProcessesTable
      */
-    protected $Roles;
+    protected $QueueProcesses;
 
     /**
      * Fixtures
@@ -24,8 +24,7 @@ class RolesTableTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.Roles',
-        'app.Users',
+        'app.QueueProcesses',
     ];
 
     /**
@@ -36,8 +35,8 @@ class RolesTableTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Roles') ? [] : ['className' => RolesTable::class];
-        $this->Roles = $this->getTableLocator()->get('Roles', $config);
+        $config = $this->getTableLocator()->exists('QueueProcesses') ? [] : ['className' => QueueProcessesTable::class];
+        $this->QueueProcesses = $this->getTableLocator()->get('QueueProcesses', $config);
     }
 
     /**
@@ -47,7 +46,7 @@ class RolesTableTest extends TestCase
      */
     protected function tearDown(): void
     {
-        unset($this->Roles);
+        unset($this->QueueProcesses);
 
         parent::tearDown();
     }
@@ -56,7 +55,7 @@ class RolesTableTest extends TestCase
      * Test validationDefault method
      *
      * @return void
-     * @uses \App\Model\Table\RolesTable::validationDefault()
+     * @uses \App\Model\Table\QueueProcessesTable::validationDefault()
      */
     public function testValidationDefault(): void
     {
@@ -64,12 +63,12 @@ class RolesTableTest extends TestCase
     }
 
     /**
-     * Test getAllRoles method
+     * Test buildRules method
      *
      * @return void
-     * @uses \App\Model\Table\RolesTable::getAllRoles()
+     * @uses \App\Model\Table\QueueProcessesTable::buildRules()
      */
-    public function testGetAllRoles(): void
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

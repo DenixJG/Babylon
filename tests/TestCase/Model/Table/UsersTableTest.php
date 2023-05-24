@@ -77,4 +77,15 @@ class UsersTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test getAllUsers method
+     *
+     * @return void
+     * @uses \App\Model\Table\UsersTable::getAllUsers()
+     */
+    public function testGetAllUsers(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

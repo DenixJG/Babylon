@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\RolesTable;
+use App\Model\Table\QueuedJobsTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\RolesTable Test Case
+ * App\Model\Table\QueuedJobsTable Test Case
  */
-class RolesTableTest extends TestCase
+class QueuedJobsTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\RolesTable
+     * @var \App\Model\Table\QueuedJobsTable
      */
-    protected $Roles;
+    protected $QueuedJobs;
 
     /**
      * Fixtures
@@ -24,8 +24,7 @@ class RolesTableTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.Roles',
-        'app.Users',
+        'app.QueuedJobs',
     ];
 
     /**
@@ -36,8 +35,8 @@ class RolesTableTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Roles') ? [] : ['className' => RolesTable::class];
-        $this->Roles = $this->getTableLocator()->get('Roles', $config);
+        $config = $this->getTableLocator()->exists('QueuedJobs') ? [] : ['className' => QueuedJobsTable::class];
+        $this->QueuedJobs = $this->getTableLocator()->get('QueuedJobs', $config);
     }
 
     /**
@@ -47,7 +46,7 @@ class RolesTableTest extends TestCase
      */
     protected function tearDown(): void
     {
-        unset($this->Roles);
+        unset($this->QueuedJobs);
 
         parent::tearDown();
     }
@@ -56,20 +55,9 @@ class RolesTableTest extends TestCase
      * Test validationDefault method
      *
      * @return void
-     * @uses \App\Model\Table\RolesTable::validationDefault()
+     * @uses \App\Model\Table\QueuedJobsTable::validationDefault()
      */
     public function testValidationDefault(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test getAllRoles method
-     *
-     * @return void
-     * @uses \App\Model\Table\RolesTable::getAllRoles()
-     */
-    public function testGetAllRoles(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

@@ -21,6 +21,7 @@ class RolesFixture extends TestFixture
             [
                 'id' => 1,
                 'name' => 'Lorem ipsum dolor sit amet',
+                'description' => 'Lorem ipsum dolor sit amet',
                 'is_admin' => 1,
                 'is_user' => 1,
             ],
