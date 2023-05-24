@@ -249,6 +249,7 @@
     <?= $this->Html->script('custom/apps/chat/chat.js'); ?>
     <?= $this->Html->script('custom/modals/create-project.bundle.js'); ?>
     <?= $this->Html->script('custom/modals/upgrade-plan.js'); ?>
+    <?= $this->fetch('custom-scripts') ?>
     <!--end::Page Custom Javascript-->
     <!--end::Javascript-->
 </body>

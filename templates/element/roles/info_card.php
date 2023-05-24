@@ -32,7 +32,7 @@
     <!--end::Roles Card body-->
     <!--begin::Roles Card footer-->
     <div class="card-footer flex-wrap pt-0">
-        <button type="button" class="btn btn-light btn-active-light-primary my-1" data-bs-toggle="modal" data-bs-target="#kt_modal_update_role">Edit Role</button>
+        <button id="btn-edit-roles" type="button" class="btn btn-light btn-active-light-primary my-1" data-bs-toggle="modal" data-bs-target="#kt_modal_update_role">Edit Role</button>
     </div>
     <!--end::Roles Card footer-->
 </div>
