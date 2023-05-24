@@ -28,7 +28,7 @@ class RolesController extends AppController
      */
     public function index()
     {
-        $roles = $this->paginate($this->Roles)->toArray();
+        $roles = $this->Roles->getAllRoles();
 
         $this->set(compact('roles'));
     }

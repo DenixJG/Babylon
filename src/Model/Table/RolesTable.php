@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -11,6 +10,8 @@ use Cake\Validation\Validator;
 
 /**
  * Roles Model
+ *
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\HasMany $Users
  *
  * @method \App\Model\Entity\Role newEmptyEntity()
  * @method \App\Model\Entity\Role newEntity(array $data, array $options = [])
@@ -41,6 +42,10 @@ class RolesTable extends Table
         $this->setTable('roles');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        $this->hasMany('Users', [
+            'foreignKey' => 'role_id',
+        ]);
     }
 
     /**
@@ -58,6 +63,11 @@ class RolesTable extends Table
             ->notEmptyString('name');
 
         $validator
+            ->scalar('description')
+            ->maxLength('description', 90)
+            ->allowEmptyString('description');
+
+        $validator
             ->boolean('is_admin')
             ->notEmptyString('is_admin');
 
@@ -69,15 +79,26 @@ class RolesTable extends Table
     }
 
     /**
-     * Undocumented function
+     * Get all roles ordered by name ASC from the database
      *
-     * @return void
+     * @return Role[]|null
      */
     public function getAllRoles()
     {
         $roles = $this->find('all', [
             'order' => ['name' => 'ASC']
-        ]);
+        ])->toArray();
+
+        if (empty($roles)) {
+            return null;
+        }
+
+        // For each role, count the number of users with that role
+        foreach ($roles as $role) {
+            $role->user_count = $this->Users->find('all', [
+                'conditions' => ['role_id' => $role->id]
+            ])->count();
+        }
 
         return $roles;
     }

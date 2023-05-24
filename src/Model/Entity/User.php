@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -12,7 +13,7 @@ use Cake\ORM\Entity;
  * @property string $username
  * @property string $email
  * @property string $password
- * @property int $roles_id
+ * @property int $role_id
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
@@ -37,7 +38,7 @@ class User extends Entity
         'username' => true,
         'email' => true,
         'password' => true,
-        'roles_id' => true,
+        'role_id' => true,
         'created' => true,
         'modified' => true,
         'role' => true,
@@ -55,4 +56,16 @@ class User extends Entity
     protected $_hidden = [
         'password',
     ];
+
+    protected $_virtual = ['is_admin', 'is_user'];
+
+    protected function _getIsAdmin(): bool
+    {
+        return $this->role_id === 1;
+    }
+
+    protected function _getIsUser(): bool
+    {
+        return $this->role_id === 2;
+    }
 }

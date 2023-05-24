@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -53,7 +52,7 @@ class UsersTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Roles', [
-            'foreignKey' => 'roles_id',
+            'foreignKey' => 'role_id',
             'joinType' => 'INNER',
         ]);
         $this->hasMany('EpisodeNotes', [
@@ -98,8 +97,8 @@ class UsersTable extends Table
             ->notEmptyString('password');
 
         $validator
-            ->integer('roles_id')
-            ->notEmptyString('roles_id');
+            ->integer('role_id')
+            ->notEmptyString('role_id');
 
         return $validator;
     }
@@ -115,20 +114,8 @@ class UsersTable extends Table
     {
         $rules->add($rules->isUnique(['username']), ['errorField' => 'username']);
         $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
-        $rules->add($rules->existsIn('roles_id', 'Roles'), ['errorField' => 'roles_id']);
+        $rules->add($rules->existsIn('role_id', 'Roles'), ['errorField' => 'role_id']);
 
         return $rules;
-    }
-
-    /**
-     * Returns all users from the database
-     *
-     * @return \App\Model\Entity\User[]|null
-     */
-    public function getAllUsers()
-    {
-        $users = $this->find('all')->toArray();
-
-        return $users;
     }
 }
