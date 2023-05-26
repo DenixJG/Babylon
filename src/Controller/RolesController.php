@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Utils\Utils;
+use Cake\Http\Client\Response;
+use Cake\Log\Log;
+use stdClass;
+
 /**
  * Roles Controller
  *
@@ -34,82 +39,55 @@ class RolesController extends AppController
     }
 
     /**
-     * View method
+     * This method is used to get all ajax requests and process them
      *
-     * @param string|null $id Role id.
+     * Send the request to the correct method based on the custom-action attribute
+     * of the modal element
+     *
+     * @return void
+     */
+    public function ajax()
+    {
+        $this->request->allowMethod(['post']);
+
+        Log::error(print_r($this->request->getData(), true));
+        $action = $this->request->getData('action');
+
+        $response = new stdClass();
+        switch ($action) {
+            case 'edit-role':
+                return $this->editRole();
+                break;
+            default:
+                $this->Flash->error(__('Invalid request'));
+                break;
+        }
+
+        Log::error(print_r($response, true));
+        $this->set('response', $response);
+        $this->render('ajax_response');
+    }
+
+    /**
+     * Edit Role method - This method is used to edit a role
+     *
      * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    private function editRole()
     {
-        $role = $this->Roles->get($id, [
-            'contain' => [],
-        ]);
+        $this->request->allowMethod(['post']);
 
-        $this->set(compact('role'));
-    }
-
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $role = $this->Roles->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $role = $this->Roles->patchEntity($role, $this->request->getData());
-            if ($this->Roles->save($role)) {
-                $this->Flash->success(__('The role has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The role could not be saved. Please, try again.'));
-        }
-        $this->set(compact('role'));
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Role id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $role = $this->Roles->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $role = $this->Roles->patchEntity($role, $this->request->getData());
-            if ($this->Roles->save($role)) {
-                $this->Flash->success(__('The role has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The role could not be saved. Please, try again.'));
-        }
-        $this->set(compact('role'));
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Role id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $role = $this->Roles->get($id);
-        if ($this->Roles->delete($role)) {
-            $this->Flash->success(__('The role has been deleted.'));
-        } else {
-            $this->Flash->error(__('The role could not be deleted. Please, try again.'));
+        $role_id = $this->request->getData('data')['role_id'];
+        if (empty($role_id)) {
+            $this->Flash->error(__('Invalid request'));
+            return $this->redirect(['action' => 'index']);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $role = $this->Roles->get($role_id);
+        Log::error(print_r($role, true));
+
+        $this->set('role', $role);
+        $this->set('modal_title', 'Edit Role - ' . $role->name);
+        $this->render('/element/roles/modals/edit_role_content');
     }
 }

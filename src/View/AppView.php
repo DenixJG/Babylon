@@ -42,5 +42,9 @@ class AppView extends View
         $this->loadHelper('Breadcrumbs', [
             'templates' => 'breadcrumbs-template',
         ]);
+
+        $this->loadHelper('Form', [
+            'templates' => 'form-template',
+        ]);
     }
 }

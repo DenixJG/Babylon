@@ -26,6 +26,7 @@
     <title><?= $this->fetch('title'); ?></title>
 
     <?= $this->Html->meta('icon'); ?>
+    <?= $this->Html->meta('csrfToken', $this->request->getAttribute('csrfToken')) ?>
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" />
     <!--end::Fonts-->
@@ -249,7 +250,10 @@
     <?= $this->Html->script('custom/apps/chat/chat.js'); ?>
     <?= $this->Html->script('custom/modals/create-project.bundle.js'); ?>
     <?= $this->Html->script('custom/modals/upgrade-plan.js'); ?>
+
+    <?= $this->Html->script('utils.js'); ?>
     <?= $this->fetch('custom-scripts') ?>
+
     <!--end::Page Custom Javascript-->
     <!--end::Javascript-->
 </body>
