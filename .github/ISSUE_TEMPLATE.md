@@ -1,23 +1,12 @@
-This is a (multiple allowed):
+## Feature Description
+Descripción de la duncionalidad
 
-* [x] bug
-* [ ] enhancement
-* [ ] feature-discussion (RFC)
+### Tasks
 
-* CakePHP Application Skeleton Version: EXACT RELEASE VERSION OR COMMIT HASH, HERE.
-* Platform and Target: YOUR WEB-SERVER, DATABASE AND OTHER RELEVANT INFO AND HOW THE REQUEST IS BEING MADE, HERE.
+* [ ] New feature
+* [ ] New feature
+...
 
-### What you did
-EXPLAIN WHAT YOU DID, PREFERABLY WITH CODE EXAMPLES, HERE.
-
-### What happened
-EXPLAIN WHAT IS ACTUALLY HAPPENING, HERE.
-
-### What you expected to happen
-EXPLAIN WHAT IS TO BE EXPECTED, HERE.
-
-P.S. Remember, an issue is not the place to ask questions. You can use [Stack Overflow](https://stackoverflow.com/questions/tagged/cakephp)
-for that or join the #cakephp channel on irc.freenode.net, where we will be more
-than happy to help answer your questions.
-
-Before you open an issue, please check if a similar issue already exists or has been closed before.
+### Info
+* CakePHP Application Skeleton Version: 4.4.*.
+* Platform and Target: Ubuntu 22.04, MySql 8.0.32 (aarch64), Firefox.
