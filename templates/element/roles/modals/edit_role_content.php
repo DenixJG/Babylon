@@ -20,10 +20,10 @@
     </div>
     <div class="modal-body scroll-y mx-5 my-7">
         <?= $this->Form->create(isset($role) ? $role : null, [
-            'id' => 'kt_modal_update_role_form',
+            'id' => 'roles-form',
             'class' => 'form fv-plugins-bootstrap5 fv-plugins-framework',
-            'action' => '#',
         ]) ?>
+        <?= $this->Form->hidden('Roles.id') ?>
         <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_role_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_role_header" data-kt-scroll-wrappers="#kt_modal_update_role_scroll" data-kt-scroll-offset="300px" style="max-height: 515px;">
             <?= $this->Form->control('Roles.name', [
                 'class' => 'form-control form-control-solid',
