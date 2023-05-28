@@ -110,6 +110,8 @@ class Utils {
      * @param {string} params.action The action to perform on the server
      * @param {object} params.data The data to send to the server
      * @param {string} params.dataType The type of data to expect from the server
+     * @param {boolean} params.processData Whether to process the data or not
+     * @param {string} params.contentType The type of content to send to the server
      * @param {function} callback The callback function to execute after the request is successful
      *
      * @returns {Promise} The promise object representing the response from the server
@@ -121,14 +123,18 @@ class Utils {
             action = "empty",
             data = undefined,
             dataType = "json",
+            processData = true,
+            contentType = "application/x-www-form-urlencoded; charset=UTF-8",
         } = {},
         callback = undefined
     ) {
         return $.ajax({
             url: url,
             method: method,
+            processData: processData,
+            contentType: contentType,
             data: {
-                action: action,
+                action: action || data.action,
                 data: data,
             },
             dataType: dataType,

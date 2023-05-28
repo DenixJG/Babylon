@@ -18,21 +18,24 @@ function initOpenModal() {
             data: {
                 role_id: $(btn).data("role-id"),
             },
-            dataType: "html",
+            dataType: "json",
         }).then(async function (response) {
-            await $("#roles-modal-content").html(response);
+            await $("#roles-modal-content").html(response.content);
 
             // data-kt-roles-modal-action="cancel" hides the modal on click using jQuery
+            // data-kt-roles-modal-action="close" hides the modal on click using jQuery
             $(modal)
-                .find('[data-kt-roles-modal-action="cancel"]')
-                .on("click", function () {
+                .find(
+                    '[data-roles-modal-action="cancel"], [data-roles-modal-action="close"]'
+                )
+                .on("click", function (e) {
                     $(modal).modal("hide");
                 });
 
             // data-kt-roles-modal-action="submit" submits the modal form using jQuery
             $(modal)
-                .find('[data-kt-roles-modal-action="submit"]')
-                .on("click", function () {
+                .find('[data-roles-modal-action="submit"]')
+                .on("click", function (e) {
                     // Get form element instance
                     let form = $(modal).find("form");
 
@@ -44,22 +47,24 @@ function initOpenModal() {
 
 /**
  * Manage roles data, send ajax request to server
+ *
+ * @param {object} formElement The form element to get data from
  */
 function manageDataRole(formElement) {
-    $(formElement).on("submit", function (e) {
-        e.preventDefault();
+    let formData = new FormData(formElement[0]);
 
-        let formData = new FormData($(formElement
-            t));
-        console.log(formData);
-        return;
-        Utils.sendAjaxRequest("/roles/ajax", {
-            method: "POST",
-            action: "update-role",
-            data: formData,
-            dataType: "json",
-        }).then(function (response) {
-            console.log(response);
-        });
+    formData.append("action", "save-role-data");
+
+    // FIXME: When send data to server, the data is not sent
+    // correctly, the data is sent as [object Object]
+    Utils.sendAjaxRequest("/roles/ajax", {
+        method: "POST",
+        action: undefined,
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+    }).then(function (response) {
+        console.log(response);
     });
 }

@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Utils\Utils;
 use Cake\Http\Client\Response;
 use Cake\Log\Log;
+use Phinx\Util\Util;
 use stdClass;
 
 /**
@@ -44,7 +45,7 @@ class RolesController extends AppController
      * Send the request to the correct method based on the custom-action attribute
      * of the modal element
      *
-     * @return void
+     * @return \Cake\Http\Response|null|void Renders view
      */
     public function ajax()
     {
@@ -56,38 +57,88 @@ class RolesController extends AppController
         $response = new stdClass();
         switch ($action) {
             case 'edit-role':
-                return $this->editRole();
+                $response = $this->editRole();
+                break;
+            case 'save-role-data':
+                $response = $this->saveRoleData();
                 break;
             default:
-                $this->Flash->error(__('Invalid request'));
+                $response->status = 'error';
                 break;
         }
 
-        Log::error(print_r($response, true));
         $this->set('response', $response);
-        $this->render('ajax_response');
+        $this->render('json');
     }
 
     /**
-     * Edit Role method - This method is used to edit a role
+     * Edit Role method - This method is used to show the edit role modal
+     * and populate it with the role data
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return stdClass $response - The custom response object
      */
     private function editRole()
     {
-        $this->request->allowMethod(['post']);
+        $response = new stdClass();
+        $response->status = 400;
 
         $role_id = $this->request->getData('data')['role_id'];
         if (empty($role_id)) {
-            $this->Flash->error(__('Invalid request'));
-            return $this->redirect(['action' => 'index']);
+            $response->message = 'Invalid request';
+            return $response;
         }
 
         $role = $this->Roles->get($role_id);
+        if (empty($role)) {
+            $response->message = 'Invalid request';
+            return $response;
+        }
+
+        $response->status = 200;
+        $response->content = Utils::getElement('roles/modals/edit_role_content', [
+            'modal_title' => 'Edit Role - ' . $role->name,
+            'role' => $role,
+        ]);
+
+        return $response;
+    }
+
+    /**
+     * Save Role Data method - This method is used to save the role data
+     * after the edit role modal is submitted, also used to create new roles
+     * if the role_id is empty or 0
+     *
+     * @return stdClass $response - The custom response object
+     */
+    private function saveRoleData()
+    {
+        $this->request->allowMethod(['post']);
+
+        $response = new stdClass();
+        $response->status = 400;
+
+        $role_data = $this->request->getData('data')['role_data'];
+        if (empty($role_data)) {
+            $response->message = 'Invalid request';
+            return $response;
+        }
+
+        Log::error(print_r('Role data from client', true));
+        Log::error(print_r($role_data, true));
+
+        if (!isset($role_data['id']) || empty($role_data['id'])) {
+            $role = $this->Roles->newEmptyEntity();
+        } else {
+            $role = $this->Roles->get($role_data['id']);
+        }
+
+        $role = $this->Roles->patchEntity($role, $role_data);
+        Log::error(print_r('Role data after patching', true));
         Log::error(print_r($role, true));
 
-        $this->set('role', $role);
-        $this->set('modal_title', 'Edit Role - ' . $role->name);
-        $this->render('/element/roles/modals/edit_role_content');
+        $response->status = 200;
+        $response->message = __d('roles', 'The role has been saved');
+        
+        return $response;
     }
 }
