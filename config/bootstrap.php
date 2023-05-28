@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -76,6 +77,7 @@ use Cake\Utility\Security;
  * idea to create multiple configuration files, and separate the configuration
  * that changes from configuration that does not. This makes deployment simpler.
  */
+
 try {
     Configure::config('default', new PhpConfig());
     Configure::load('app', 'default', false);
@@ -100,6 +102,10 @@ if (Configure::read('debug')) {
     Configure::write('Cache._cake_core_.duration', '+2 minutes');
     // disable router cache during development
     Configure::write('Cache._cake_routes_.duration', '+2 seconds');
+
+    // DebugKit configuration
+    Configure::write('DebugKit.forceEnable', true);
+    Configure::write('DebugKit.variablesPanelMaxDepth', 8);
 }
 
 /*
