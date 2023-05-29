@@ -37,7 +37,11 @@ class AppController extends Controller
     /** @var string Submenu to set active */
     protected $submenu = 'home';
 
+    /** @var string Title for actual secion or controller name */
     protected $section_title = 'Home';
+
+    /** @var string Custom color theme */
+    private $theme = 'dark';
 
     /**
      * Initialization hook method.
@@ -65,6 +69,18 @@ class AppController extends Controller
     public function beforeRender(EventInterface $event)
     {
         $this->viewBuilder()->addHelper('Svg'); // Load SvgHelper only for Craft theme
+
+        // Get theme from query string if exists and update session
+        if ($this->request->getQuery('theme')) {
+            $this->theme = $this->request->getQuery('theme', 'dark');
+            $this->request->getSession()->write('Colors.Theme', $this->theme);
+        } else {
+            // Get theme from session if exists
+            $this->theme = $this->request->getSession()->read('Colors.Theme', 'dark');
+        }
+
+        // Set theme - dark or light
+        $this->set('theme', $this->theme);
 
         $this->set('menu', $this->menu);
         $this->set('submenu', $this->submenu);

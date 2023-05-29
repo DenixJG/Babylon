@@ -36,14 +36,19 @@
     <!--end::Page Vendor Stylesheets-->
 
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
-    <?= $this->Html->css('/plugins/global/plugins.bundle.css'); ?>
-    <?= $this->Html->css('style.bundle.css'); ?>
+    <?php if ($theme === 'dark') : ?>
+        <?= $this->Html->css('/plugins/global/plugins.dark.bundle.css') ?>
+        <?= $this->Html->css('style.dark.bundle.css') ?>
+    <?php else : ?>
+        <?= $this->Html->css('/plugins/global/plugins.bundle.css'); ?>
+        <?= $this->Html->css('style.bundle.css'); ?>
+    <?php endif; ?>
     <!--end::Global Stylesheets Bundle-->
 </head>
 <!--end::Head-->
 <!--begin::Body-->
 
-<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-fixed aside-default-enabled">
+<body id="kt_body" class="dark-mode header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-fixed aside-default-enabled">
     <!--begin::Main-->
     <!--begin::Root-->
     <div class="d-flex flex-column flex-root">
