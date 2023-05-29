@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -117,5 +118,30 @@ class UsersTable extends Table
         $rules->add($rules->existsIn('role_id', 'Roles'), ['errorField' => 'role_id']);
 
         return $rules;
+    }
+
+    public function findForList(Query $query, array $options)
+    {
+        $query->select($this)->enableAutoFields(true);
+
+        // Set query conditions
+        if (!empty($options['conditions'])) {
+            $query->where($options['conditions']);
+        }
+
+        // Set query associations
+        if (!empty($options['contain'])) {
+            $query->contain($options['contain']);
+        }
+
+        // Set query order
+        if (!empty($options['order'])) {
+            $query->order($options['order']);
+        }
+
+        // Group by Users.id
+        $query->group('Users.id');
+
+        return $query;
     }
 }

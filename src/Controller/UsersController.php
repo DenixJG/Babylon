@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Entity\User;
+
 /**
  * Users Controller
  *
@@ -28,12 +30,49 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $customFinderConditions['conditions'] = '';
+
+        if ($this->request->is('post')) {
+            $search = $this->request->getData('search');
+
+            if (!empty($search)) {
+                $searchConditions = [];
+                $searchConditions['Users.username LIKE'] = '%' . $search . '%';
+                $searchConditions['Users.email LIKE'] = '%' . $search . '%';
+
+                $customFinderConditions['conditions'] = $searchConditions;
+
+                $this->request->getSession()->write('Users.List.Search', $search);
+                $this->request->getSession()->write('Users.List.Conditions', $searchConditions);
+            } else {
+                $this->request->getSession()->delete('Users.List.Search');
+                $this->request->getSession()->delete('Users.List.Conditions');
+            }
+        } else {
+            // Get conditions from session if they exist
+            $session = $this->request->getSession();
+            if ($session->check('Users.List.conditions')) {
+                $this->set('search', $session->read('Users.List.Search'));
+            }
+
+            // Get conditions from search form
+            if ($session->check('Users.List.Conditions')) {
+                $customFinderConditions['conditions'] = $session->read('Users.List.Conditions');
+            }
+        }
+
+        $settings = [
             'contain' => ['Roles'],
-        ];
-        $users = $this->paginate($this->Users);
+            'order' => ['Users.username' => 'ASC'],
+            'finder' => ['forList' => $customFinderConditions],
+        ];        
+
+        /** @var User[] */
+        $users = $this->paginate($this->Users, $settings)->toArray();
 
         $this->set(compact('users'));
+
+        return $this->render();
     }
 
     /**

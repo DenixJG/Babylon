@@ -1,8 +1,14 @@
 <?php
 
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 return [
     // Used for button elements in button().
-    'button' => '<button{{attrs}}>{{text}}</button>',
+    'button' => '<button{{attrs}}><span class="indicator-label">{{text}}</span><span class="indicator-progress">Please wait...<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span></button>',
     // Used for checkboxes in checkbox() and multiCheckbox().
     'checkbox' => '<input type="checkbox" name="{{name}}" value="{{value}}"{{attrs}}>',
     // Input group wrapper for checkboxes created via control().
@@ -10,7 +16,7 @@ return [
     // Wrapper container for checkboxes.
     'checkboxWrapper' => '<div class="checkbox">{{label}}</div>',
     // Error message wrapper elements.
-    'error' => '<div class="error-message" id="{{id}}">{{content}}</div>',
+    'error' => '<div class="error-message">{{content}}</div>',
     // Container for error items.
     'errorList' => '<ul>{{content}}</ul>',
     // Error item wrapper.
@@ -32,11 +38,11 @@ return [
     // Submit input element.
     'inputSubmit' => '<input type="{{type}}"{{attrs}}/>',
     // Container element used by control().
-    'inputContainer' => '<div class="fv-row mb-5 fv-plugins-icon-container {{type}}">{{content}}</div>',
+    'inputContainer' => '{{content}}',
     // Container element used by control() when a field has an error.
     'inputContainerError' => '<div class="input {{type}}{{required}} error">{{content}}{{error}}</div>',
     // Label element when inputs are not nested inside the label.
-    'label' => '<label{{attrs}}><span class="{{required}}">{{text}}</span></label>',
+    'label' => '<label{{attrs}}>{{text}}</label>',
     // Label element used for radio and multi-checkbox inputs.
     'nestingLabel' => '{{hidden}}<label{{attrs}}>{{input}}{{text}}</label>',
     // Legends created by allControls()
