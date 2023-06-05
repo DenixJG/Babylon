@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -11,6 +12,16 @@ namespace App\Controller;
  */
 class ShowsController extends AppController
 {
+
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        $this->menu = 'shows';
+        $this->submenu = 'shows';
+        $this->section_title = 'Shows';
+    }
+
     /**
      * Index method
      *
