@@ -3,12 +3,13 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Movie $movie
- * @var string[]|\Cake\Collection\CollectionInterface $movieStatuses
+ * @var \Cake\Collection\CollectionInterface|string[] $movieStatuses
  */
-
-$this->Breadcrumbs->add(__d('breadcrumbs', 'Movies'), ['controller' => 'Movies', 'action' => 'index'], ['class' => 'breadcrumb-item text-secondary-color']);
-$this->Breadcrumbs->add(__d('breadcrumbs', 'Edit'), null, ['class' => 'breadcrumb-item text-dark active text-secondary-color']);
 ?>
+<?php $this->Breadcrumbs->add(__d('breadcrumbs', 'Movies'), ['controller' => 'Movies', 'action' => 'index'], ['class' => 'breadcrumb-item text-secondary-color']); ?>
+<?php $this->Breadcrumbs->add(__d('breadcrumbs', 'New'), null, ['class' => 'breadcrumb-item text-dark active text-secondary-color']); ?>
+
+<?= $this->Html->script('movies/new.js', ['block' => 'script']); ?>
 
 <div class="card mb-6 mb-xxl-9">
     <div class="card-body py-10">
@@ -68,7 +69,7 @@ $this->Breadcrumbs->add(__d('breadcrumbs', 'Edit'), null, ['class' => 'breadcrum
                     __d('buttons', 'Save'),
                     [
                         'controller' => 'Movies',
-                        'action' => 'edit', $movie->id
+                        'action' => 'new',
                     ],
                     [
                         'class' => 'btn btn-lg btn-primary me-3 my-2',

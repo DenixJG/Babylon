@@ -27,6 +27,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Movie[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\Movie[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Movie[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ *
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class MoviesTable extends Table
 {
@@ -43,6 +45,8 @@ class MoviesTable extends Table
         $this->setTable('movies');
         $this->setDisplayField('title');
         $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp');
 
         $this->belongsTo('MovieStatuses', [
             'foreignKey' => 'status_id',

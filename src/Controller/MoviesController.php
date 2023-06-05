@@ -19,7 +19,7 @@ class MoviesController extends AppController
 
         $this->menu = 'movies';
         $this->submenu = 'movies';
-        $this->section_title = 'Mivies';
+        $this->section_title = 'Movies';
     }
 
     /**
@@ -58,7 +58,7 @@ class MoviesController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function new()
     {
         $movie = $this->Movies->newEmptyEntity();
         if ($this->request->is('post')) {

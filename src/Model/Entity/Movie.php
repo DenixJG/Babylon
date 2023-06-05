@@ -12,6 +12,8 @@ use Cake\ORM\Entity;
  * @property string $title
  * @property int $status_id
  * @property \Cake\I18n\FrozenDate $release_date
+ * @property \Cake\I18n\FrozenTime|null $created
+ * @property \Cake\I18n\FrozenTime|null $modified
  *
  * @property \App\Model\Entity\MovieStatus $movie_status
  * @property \App\Model\Entity\MovieDirector[] $movie_directors
@@ -31,6 +33,8 @@ class Movie extends Entity
         'title' => true,
         'status_id' => true,
         'release_date' => true,
+        'created' => true,
+        'modified' => true,
         'movie_status' => true,
         'movie_directors' => true,
     ];
