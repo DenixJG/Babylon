@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var array $params
@@ -7,5 +8,24 @@
 if (!isset($params['escape']) || $params['escape'] !== false) {
     $message = h($message);
 }
-?>
-<div class="message success" onclick="this.classList.add('hidden')"><?= $message ?></div>
+
+echo $this->Html->scriptBlock(
+    'toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "6000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }; toastr.success("' . $message . '");',
+    ['block' => 'custom-scripts']
+);
