@@ -58,7 +58,7 @@ class ShowsController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function new()
     {
         $show = $this->Shows->newEmptyEntity();
         if ($this->request->is('post')) {

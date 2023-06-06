@@ -1,46 +1,58 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Show> $shows
  */
 ?>
-<div class="shows index content">
-    <?= $this->Html->link(__('New Show'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Shows') ?></h3>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('title') ?></th>
-                    <th><?= $this->Paginator->sort('status_id') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($shows as $show): ?>
-                <tr>
-                    <td><?= $this->Number->format($show->id) ?></td>
-                    <td><?= h($show->title) ?></td>
-                    <td><?= $show->has('show_status') ? $this->Html->link($show->show_status->name, ['controller' => 'ShowStatuses', 'action' => 'view', $show->show_status->id]) : '' ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $show->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $show->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $show->id], ['confirm' => __('Are you sure you want to delete # {0}?', $show->id)]) ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+<div class="card mb-5 mb-xxl-8">
+    <div class="card-body pt-5 pb-0">
+        <div class="row mb-10">
+            <!-- Search Box -->
+            <div class="col-sm-8 col-xl-10 mb-15 mb-xl-0 text-start">
+                <div class="card-title">
+                    <div class="d-flex align-items-center position-relative my-1">
+                        <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
+                                <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="black"></path>
+                            </svg>
+                        </span>
+                        <?= $this->Form->control('search', [
+                            'type' => 'text',
+                            'class' => 'form-control form-control-solid ps-15',
+                            'id' => 'search',
+                            'placeholder' => __d('events', 'Buscar...'),
+                            'data-kt-customer-table-filter' => 'search',
+                            'label' => false,
+                            'value' => (isset($search)) ? $search : ''
+                        ]); ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create Button -->
+            <div class="col-sm-4 col-xl-2 mb-15 mb-xl-0 text-end">
+                <?= $this->Html->link(
+                    '<i class="fas fa-plus text-white"></i>',
+                    [
+                        'controller' => 'Shows',
+                        'action' => 'new',
+                    ],
+                    [
+                        'escape' => false,
+                        'class' => 'btn btn-lg btn-primary fw-bolder'
+                    ]
+                )
+                ?>
+            </div>
+        </div>
+
+        <div class="card-body pt-0">
+            <div class="dataTables_wrapper dt-bootstrap4 no-footer" id="container-table-users">
+                <?= $this->element('shows/table_shows'); ?>
+            </div>
+        </div>
+
     </div>
 </div>

@@ -3,7 +3,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Show $show
- * @var string[]|\Cake\Collection\CollectionInterface $showStatuses
+ * @var \Cake\Collection\CollectionInterface|string[] $showStatuses
  */
 ?>
 <?php $this->Breadcrumbs->add(__d('breadcrumbs', 'Shows'), ['controller' => 'Shows', 'action' => 'index'], ['class' => 'breadcrumb-item text-secondary-color']); ?>
@@ -60,7 +60,7 @@
                     __d('buttons', 'Save'),
                     [
                         'controller' => 'Shows',
-                        'action' => 'edit', $show->id
+                        'action' => 'new',
                     ],
                     [
                         'class' => 'btn btn-lg btn-primary me-3 my-2',
