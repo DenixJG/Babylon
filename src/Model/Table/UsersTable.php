@@ -4,10 +4,17 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\User;
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
+use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Ramsey\Uuid\Rfc4122\UuidV4;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Users Model
@@ -101,7 +108,23 @@ class UsersTable extends Table
             ->integer('role_id')
             ->notEmptyString('role_id');
 
+        $validator
+            ->boolean('active')
+            ->allowEmptyString('active');
+
+        $validator
+            ->scalar('hash')
+            ->maxLength('hash', 255)
+            ->allowEmptyString('hash');
+
         return $validator;
+    }
+
+    public function beforeSave(EventInterface $event, User $entity, ArrayObject $options)
+    {
+        if ($entity->isDirty('email')) {
+            $entity->hash = Uuid::uuid5(env('APP_UUID_NAMESPACE'), $entity->email)->toString();
+        }
     }
 
     /**

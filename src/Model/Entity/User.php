@@ -1,9 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\ORM\Entity;
 
 /**
@@ -14,6 +14,8 @@ use Cake\ORM\Entity;
  * @property string $email
  * @property string $password
  * @property int $role_id
+ * @property bool|null $active
+ * @property string|null $hash
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
@@ -39,6 +41,8 @@ class User extends Entity
         'email' => true,
         'password' => true,
         'role_id' => true,
+        'active' => true,
+        'hash' => true,
         'created' => true,
         'modified' => true,
         'role' => true,
@@ -67,5 +71,10 @@ class User extends Entity
     protected function _getIsUser(): bool
     {
         return $this->role_id === 2;
+    }
+
+    protected function _setPassword(string $password): string
+    {
+        return (new DefaultPasswordHasher())->hash($password);
     }
 }

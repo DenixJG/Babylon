@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\Entity\User;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Users Controller
@@ -20,7 +21,7 @@ class UsersController extends AppController
 
         $this->menu = 'management';
         $this->submenu = 'users';
-        $this->section_title = 'Users';
+        $this->section_title = 'Users';        
     }
 
     /**
@@ -65,7 +66,7 @@ class UsersController extends AppController
             'contain' => ['Roles'],
             'order' => ['Users.username' => 'ASC'],
             'finder' => ['forList' => $customFinderConditions],
-        ];        
+        ];
 
         /** @var User[] */
         $users = $this->paginate($this->Users, $settings)->toArray();
@@ -96,11 +97,15 @@ class UsersController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function new()
     {
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
+
+            // Create a random hash for the user's email
+            $user->hash = Uuid::uuid5(env('APP_UUID_NAMESPACE'), $user->email)->toString();
+
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -125,7 +130,12 @@ class UsersController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $data = $this->request->getData();            
+            if (empty($data['password'])) {
+                unset($data['password']);
+            }
+
+            $user = $this->Users->patchEntity($user, $data);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 

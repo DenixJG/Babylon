@@ -26,6 +26,9 @@ use Cake\Event\EventInterface;
  *
  * Add your application-wide methods in the class below, your controllers
  * will inherit them.
+ * 
+ * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
+ * @property \Cake\Controller\Component\FlashComponent $Flash
  *
  * @link https://book.cakephp.org/4/en/controllers.html#the-app-controller
  */
@@ -64,6 +67,8 @@ class AppController extends Controller
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+
+        $this->loadComponent('Authentication.Authentication');
     }
 
     public function beforeRender(EventInterface $event)

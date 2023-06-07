@@ -79,12 +79,12 @@ class UsersTableTest extends TestCase
     }
 
     /**
-     * Test getAllUsers method
+     * Test findForList method
      *
      * @return void
-     * @uses \App\Model\Table\UsersTable::getAllUsers()
+     * @uses \App\Model\Table\UsersTable::findForList()
      */
-    public function testGetAllUsers(): void
+    public function testFindForList(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

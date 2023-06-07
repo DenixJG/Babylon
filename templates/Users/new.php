@@ -3,20 +3,21 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User $user
- * @var string[]|\Cake\Collection\CollectionInterface $roles
+ * @var \Cake\Collection\CollectionInterface|string[] $roles
  */
 ?>
-<?php $this->Breadcrumbs->add(__d('breadcrumbs', 'Users'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'breadcrumb-item text-secondary-color']); ?>
-<?php $this->Breadcrumbs->add(__d('breadcrumbs', 'EDit'), null, ['class' => 'breadcrumb-item text-dark active text-secondary-color']); ?>
 
-<?= $this->Html->script('users/edit.js', ['block' => 'script']); ?>
+<?php $this->Breadcrumbs->add(__d('breadcrumbs', 'Users'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'breadcrumb-item text-secondary-color']); ?>
+<?php $this->Breadcrumbs->add(__d('breadcrumbs', 'New'), null, ['class' => 'breadcrumb-item text-dark active text-secondary-color']); ?>
+
+<?= $this->Html->script('users/new.js', ['block' => 'script']); ?>
 
 <div class="card mb-6 mb-xxl-9">
     <div class="card-body py-10">
         <?= $this->Form->create($user, ['id' => 'user-new-form', 'novalidate' => true]); ?>
         <?= $this->Form->hidden('id', ['value' => $user->id]); ?>
         <h2 class="">
-            <?= __d('users', 'Edit user - {0}', ucfirst($user->username)); ?>
+            <?= __d('users', 'Add user'); ?>
         </h2>
         <hr class="separator-dashed">
         <div class="row mb-10">
@@ -41,10 +42,9 @@
             <div class="col-12 col-xl-6 mb-15 mb-xl-5">
                 <?= $this->Form->control('password', [
                     'class' => 'text-dark-light form-control',
-                    'value' => '',
                     'label' => [
                         'class' => 'text-gray-600 form-label',
-                        'text' => __d('users', 'New Password')
+                        'text' => __d('users', 'Password')
                     ]
                 ]); ?>
             </div>
@@ -94,7 +94,7 @@
                     __d('buttons', 'Save'),
                     [
                         'controller' => 'Users',
-                        'action' => 'edit', $user->id
+                        'action' => 'new',
                     ],
                     [
                         'class' => 'btn btn-lg btn-primary me-3 my-2',

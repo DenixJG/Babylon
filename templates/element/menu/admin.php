@@ -29,7 +29,7 @@
         </div>
         <div class="menu-item pt-5">
             <div class="menu-content">
-                <span class="fw-bold text-muted text-uppercase fs-7"><?= __d('menu', 'Media COntent') ?></span>
+                <span class="fw-bold text-muted text-uppercase fs-7"><?= __d('menu', 'Media Content') ?></span>
             </div>
         </div>
         <div class="menu-item <?= $menu === 'movies' ? 'here' : ''; ?>">

@@ -152,7 +152,7 @@
                                         <div class="separator my-2"></div>
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-5">
-                                            <a href="<?= $this->Url->build(['controller' => 'Session', 'action' => 'logout']); ?>" class="menu-link px-5">Sign Out</a>
+                                            <a href="<?= $this->Url->build('/logout'); ?>" class="menu-link px-5">Sign Out</a>
                                         </div>
                                         <!--end::Menu item-->
                                     </div>
