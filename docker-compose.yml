@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  babylon:      
+    hostname: babylon-server
+    container_name: babylon-server
+    build:      
+      context: .
+      dockerfile: Dockerfile      
+    networks:
+      selfhosted:        
+        ipv4_address: 172.20.1.50
+    dns:
+      - 172.20.1.100 # pihole
+    environment:
+      DATABASE_URL: "mysql://hammurabi:%hammurabi99@mysql.rafapop.com:3306/babylon"
+    restart: unless-stopped  
+
+# Networks to be created for the containers or used by them
+networks:
+  selfhosted:
+    name: selfhosted
+    external: true
