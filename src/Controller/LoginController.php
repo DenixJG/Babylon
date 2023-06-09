@@ -29,7 +29,7 @@ class LoginController extends AppController
 
         $result = $this->Authentication->getResult();        
         if ($result->isValid()) {
-            $target = $this->Authentication->getLoginRedirect() ?? '/';
+            $target = $this->Authentication->getLoginRedirect() ?? '/home';
             return $this->redirect($target);
         }       
 
