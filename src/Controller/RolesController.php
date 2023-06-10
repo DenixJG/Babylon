@@ -79,6 +79,8 @@ class RolesController extends AppController
      */
     private function editRole()
     {
+        $this->request->allowMethod(['post']);
+
         $response = new stdClass();
         $response->status = 400;
 
@@ -117,7 +119,7 @@ class RolesController extends AppController
         $response = new stdClass();
         $response->status = 400;
 
-        $role_data = $this->request->getData('data')['role_data'];
+        $role_data = $this->request->getData('data')['Roles'];
         if (empty($role_data)) {
             $response->message = 'Invalid request';
             return $response;
@@ -133,12 +135,29 @@ class RolesController extends AppController
         }
 
         $role = $this->Roles->patchEntity($role, $role_data);
-        Log::error(print_r('Role data after patching', true));
-        Log::error(print_r($role, true));
+        if ($role->hasErrors()) {
+            $response->message = __d('roles', 'The role could not be saved. Please, try again.');
+            $response->content = Utils::getElement('roles/modals/edit_role_content', [
+                'modal_title' => 'Edit Role - ' . $role->name,
+                'role' => $role,
+            ]);
+
+            return $response;
+        }
+
+        if (!$this->Roles->save($role)) {
+            $response->message = __d('roles', 'The role could not be saved. Please, try again.');
+            $response->content = Utils::getElement('roles/modals/edit_role_content', [
+                'modal_title' => 'Edit Role - ' . $role->name,
+                'role' => $role,
+            ]);
+
+            return $response;
+        }
 
         $response->status = 200;
         $response->message = __d('roles', 'The role has been saved');
-        
+
         return $response;
     }
 }

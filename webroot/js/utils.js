@@ -13,6 +13,65 @@
  */
 class Utils {
     /**
+     * Show a toast message using the toastr library
+     *
+     * @param {string} type
+     * @param {string} message
+     * @param {string|undefined} title
+     * @param {object} options
+     */
+    static showToast(
+        type,
+        message,
+        title = undefined,
+        {
+            closeButton = false,
+            debug = false,
+            newestOnTop = false,
+            progressBar = false,
+            positionClass = "toast-top-center",
+            preventDuplicates = false,
+            onclick = null,
+            showDuration = "300",
+            hideDuration = "1000",
+            timeOut = "6000",
+            extendedTimeOut = "1000",
+            showEasing = "swing",
+            hideEasing = "linear",
+            showMethod = "fadeIn",
+            hideMethod = "fadeOut",
+        } = {}
+    ) {
+        toastr.options = {
+            closeButton: closeButton,
+            debug: debug,
+            newestOnTop: newestOnTop,
+            progressBar: progressBar,
+            positionClass: positionClass,
+            preventDuplicates: preventDuplicates,
+            onclick: onclick,
+            showDuration: showDuration,
+            hideDuration: hideDuration,
+            timeOut: timeOut,
+            extendedTimeOut: extendedTimeOut,
+            showEasing: showEasing,
+            hideEasing: hideEasing,
+            showMethod: showMethod,
+            hideMethod: hideMethod,
+        };
+
+        const validTyes = ["success", "info", "warning", "error"];
+        if (validTyes.includes(type)) {
+            toastr[type](message, title);
+        } else {
+            toastr["warning"](
+                'The type must be one of "success", "info", "warning" or "error"',
+                "Invalid Type"
+            );
+        }
+    }
+
+    /**
      * Show a sweet alert message box
      *
      * This function uses the SweetAlert2 library to show a message box and
@@ -98,6 +157,46 @@ class Utils {
     }
 
     /**
+     * Convert a FormData object to a plain object with key-value pairs
+     *
+     * If the FormData entries has format Roles[description] transform into
+     * {Roles: { description: value }}
+     *
+     * @param {FormData} formData FormData object to convert to plain object
+     * @returns {object} The plain object with key-value pairs
+     */
+    static formDataToObject(formData) {
+        let object = {};
+
+        if (formData instanceof FormData) {
+            formData.forEach((value, key) => {
+                if (key.includes("[") && key.includes("]")) {
+                    const [parentKey, childKey] = key
+                        .split(/\[(.*?)\]/)
+                        .filter(Boolean);
+                    if (!Reflect.has(object, parentKey)) {
+                        object[parentKey] = {};
+                    }
+                    object[parentKey][childKey] = value;
+                } else {
+                    if (!Reflect.has(object, key)) {
+                        object[key] = value;
+                        return;
+                    }
+
+                    if (!Array.isArray(object[key])) {
+                        object[key] = [object[key]];
+                    }
+
+                    object[key].push(value);
+                }
+            });
+        }
+
+        return object;
+    }
+
+    /**
      * Send a common ajax request to the server and handle the response
      *
      * If the request is successful, the callback function will be executed
@@ -128,15 +227,20 @@ class Utils {
         } = {},
         callback = undefined
     ) {
+        let customData = {};
+
+        if (data instanceof FormData) {
+            customData = Utils.formDataToObject(data);
+        } else {
+            customData = { action: action, data: data };
+        }
+
         return $.ajax({
             url: url,
-            method: method,
+            type: method,
             processData: processData,
             contentType: contentType,
-            data: {
-                action: action || data.action,
-                data: data,
-            },
+            data: customData,
             dataType: dataType,
             /**
              * @param {XMLHttpRequest} xhr
