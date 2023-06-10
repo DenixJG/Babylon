@@ -31,13 +31,24 @@ class LoginController extends AppController
         if ($result->isValid()) {
             $target = $this->Authentication->getLoginRedirect() ?? '/home';
             return $this->redirect($target);
-        }       
-
-        if ($this->request->is('post') && !$result->isValid()) {
-            $this->Flash->error(__('Invalid username or password'));
         }
 
         $this->set('user', $this->Users->newEmptyEntity());
+
+        if ($this->request->is('post') && !$result->isValid() && $result->getStatus() === 'FAILURE_CREDENTIALS_MISSING') {
+            $this->Flash->info(__d('login', 'Please enter your username and password'));
+            return $this->render('login_form');
+        }
+
+        if ($this->request->is('post') && !$result->isValid() && $result->getStatus() === 'FAILURE_IDENTITY_NOT_FOUND') {
+            $this->Flash->error(__d('login', 'Username or password is incorrect'));
+            return $this->render('login_form');
+        }
+
+        if ($this->request->is('post') && !$result->isValid()) {
+            $this->Flash->error(__d('login', 'Something went wrong. Please try again'));
+            return $this->render('login_form');
+        }                
 
         return $this->render('login_form');
     }

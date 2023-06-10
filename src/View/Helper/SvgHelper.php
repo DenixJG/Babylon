@@ -6,6 +6,9 @@ use Cake\View\Helper;
 use DOMDocument;
 use DOMXPath;
 
+/**
+ * Custom Svg helper for CakePHP 4
+ */
 class SvgHelper extends Helper
 {
     public $helpers = ['Url'];
@@ -36,7 +39,7 @@ class SvgHelper extends Helper
 
         $full_path = WWW_ROOT . $path;
         if ($this->_View->getTheme()) {
-            $full_path = APP_PLUGINS . $this->_View->getTheme(). DS . 'webroot' . DS . $path;
+            $full_path = APP_PLUGINS . $this->_View->getTheme() . DS . 'webroot' . DS . $path;
         }
 
         \Cake\Log\Log::error(print_r($full_path, true));
@@ -79,42 +82,42 @@ class SvgHelper extends Helper
         }
 
         // remove unwanted id attribute in g tag
-        $g =  $dom->getElementsByTagName("g");
+        $g = $dom->getElementsByTagName("g");
         foreach ($g as $el) {
             $el->removeAttribute("id");
         }
 
-        $mask =  $dom->getElementsByTagName("mask");
+        $mask = $dom->getElementsByTagName("mask");
         foreach ($mask as $el) {
             $el->removeAttribute("id");
         }
 
-        $rect =  $dom->getElementsByTagName("rect");
+        $rect = $dom->getElementsByTagName("rect");
         foreach ($rect as $el) {
             $el->removeAttribute("id");
         }
 
-        $path =  $dom->getElementsByTagName("path");
+        $path = $dom->getElementsByTagName("path");
         foreach ($path as $el) {
             $el->removeAttribute("id");
         }
 
-        $circle =  $dom->getElementsByTagName("circle");
+        $circle = $dom->getElementsByTagName("circle");
         foreach ($circle as $el) {
             $el->removeAttribute("id");
         }
 
-        $use =  $dom->getElementsByTagName("use");
+        $use = $dom->getElementsByTagName("use");
         foreach ($use as $el) {
             $el->removeAttribute("id");
         }
 
-        $polygon =  $dom->getElementsByTagName("polygon");
+        $polygon = $dom->getElementsByTagName("polygon");
         foreach ($polygon as $el) {
             $el->removeAttribute("id");
         }
 
-        $ellipse =  $dom->getElementsByTagName("ellipse");
+        $ellipse = $dom->getElementsByTagName("ellipse");
         foreach ($ellipse as $el) {
             $el->removeAttribute("id");
         }

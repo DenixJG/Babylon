@@ -79,7 +79,7 @@
     <?= $this->Html->script('custom/authentication/sign-in/general.js'); ?>
     <!--end::Page Custom Javascript-->
     <!--end::Javascript-->
-    <?= $this->fetch('script') ?>
+    <?= $this->fetch('custom-scripts') ?>
 </body>
 <!--end::Body-->
 

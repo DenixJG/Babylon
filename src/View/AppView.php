@@ -23,6 +23,8 @@ use Cake\View\View;
  * Application View
  *
  * Your application's default view class
+ * 
+ * @property \App\View\Helper\SvgHelper $Svg
  *
  * @link https://book.cakephp.org/4/en/views.html#the-app-view
  */
@@ -49,6 +51,6 @@ class AppView extends View
 
         $this->loadHelper('Paginator', [
             'templates' => 'paginator-template',             
-        ]);
+        ]);        
     }
 }

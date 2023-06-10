@@ -142,6 +142,21 @@ class UsersTable extends Table
 
         return $rules;
     }
+    
+    /**
+     * Get user by id with optional contain associations
+     *
+     * @param int $id User id
+     * @param array $contain Associations
+     * @return User|null User entity or null if not found
+     */
+    public function getById(int $id, array $contain = []): ?User
+    {
+        return $this->find()
+            ->contain($contain)
+            ->where(['Users.id' => $id])
+            ->first();            
+    }    
 
     public function findForList(Query $query, array $options)
     {

@@ -16,7 +16,7 @@ class HomeController extends AppController
      */
     public function index()
     {
-        $home = 'Welcome to CakePHP 4.0!';
+        $home = 'Welcome to Babylon Project';
 
         $this->set(compact('home'));
     }

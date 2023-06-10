@@ -29,6 +29,9 @@ use Cake\Event\EventInterface;
  * 
  * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
  * @property \Cake\Controller\Component\FlashComponent $Flash
+ * 
+ * @property \App\Model\Table\UsersTable $Users
+ * @property \App\Model\Entity\User $user 
  *
  * @link https://book.cakephp.org/4/en/controllers.html#the-app-controller
  */
@@ -42,6 +45,12 @@ class AppController extends Controller
 
     /** @var string Title for actual secion or controller name */
     protected $section_title = 'Home';
+
+    /** @var \App\Model\Entity\User|null Authenticade user */
+    protected $user = null;
+
+    /** @var \App\Model\Table\UsersTable|null Users model table */
+    protected $Users = null;
 
     /** @var string Custom color theme */
     private $theme = 'dark';
@@ -69,6 +78,16 @@ class AppController extends Controller
         //$this->loadComponent('FormProtection');
 
         $this->loadComponent('Authentication.Authentication');
+
+        $this->Users = $this->loadModel('Users');
+
+        // Get identity from Authentication component and set user entity
+        $identity = $this->Authentication->getIdentity();
+        if ($identity) {
+            $this->user = $this->Users->getById($identity->getIdentifier());
+            $this->set('logged_user', $this->user);
+        }
+
     }
 
     public function beforeRender(EventInterface $event)
@@ -86,7 +105,6 @@ class AppController extends Controller
 
         // Set theme - dark or light
         $this->set('theme', $this->theme);
-
         $this->set('menu', $this->menu);
         $this->set('submenu', $this->submenu);
         $this->set('section_title', $this->section_title);
