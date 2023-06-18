@@ -54,6 +54,32 @@
         </div>
         <div class="menu-item pt-5">
             <div class="menu-content">
+                <span class="fw-bold text-muted text-uppercase fs-7"><?= __d('menu', 'External Sources') ?></span>
+            </div>
+        </div>
+        <div data-kt-menu-trigger="click" class="menu-item menu-accordion <?= $menu === 'external_sources' ? 'here show' : ''; ?>">
+            <span class="menu-link">
+                <span class="menu-icon">
+                    <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                    <?= $this->Svg->getSvgIcon('icons/duotune/general/gen025.svg', 'svg-icon-2'); ?>
+                    <!--end::Svg Icon-->
+                </span>
+                <span class="menu-title"><?= __d('menu', 'APIs'); ?></span>
+                <span class="menu-arrow"></span>
+            </span>
+            <div class="menu-sub menu-sub-accordion <?= $submenu === 'tmdb' ? 'menu-active-bg' : ''; ?>">
+                <div class="menu-item">
+                    <a class="menu-link <?= $submenu === 'tmdb' ? 'active' : ''; ?>" href="<?= $this->Url->build(['controller' => 'Tmdb', 'action' => 'search']); ?>">
+                        <span class="menu-bullet">
+                            <span class="bullet bullet-dot"></span>
+                        </span>
+                        <span class="menu-title"><?= __d('menu', 'TMDB'); ?></span>
+                    </a>
+                </div>
+            </div>            
+        </div>        
+        <div class="menu-item pt-5">
+            <div class="menu-content">
                 <span class="fw-bold text-muted text-uppercase fs-7"><?= __d('menu', 'Configuration') ?></span>
             </div>
         </div>

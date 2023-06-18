@@ -228,3 +228,25 @@ TypeFactory::map('time', StringType::class);
 //Inflector::rules('plural', ['/^(inflect)or$/i' => '\1ables']);
 //Inflector::rules('irregular', ['red' => 'redlings']);
 //Inflector::rules('uninflected', ['dontinflectme']);
+
+
+// CUSTOM ENVIRONMENT VARIABLES //
+
+// Specify the later introduced bearer token
+define('TMDB_BEARER_TOKEN', 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2VkZGViMWJiNDA1YTg3MzhiN2UxMjk3NmUwYzM3YiIsInN1YiI6IjY0ODczNTM3YzAzNDhiMDExZmJlMTI1YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.cb9M8QBN3SPIBlHMWCKbo4SXCHXGoNc45QcgR9urfXE');
+
+// Or specify the which I guess can now be considered "legacy api key".
+define('TMDB_API_KEY', '17eddeb1bb405a8738b7e12976e0c37b');
+
+// Globals
+define('TMDB_LANGUAGE', 'es-ES');
+define('TMDB_REGION', 'es');
+
+// Session based
+define('TMDB_REQUEST_TOKEN', 'TMDB_REQUEST_TOKEN'); // for accounts
+define('TMDB_SESSION_TOKEN', 'TMDB_SESSION_TOKEN'); // for accounts
+define('TMDB_GUEST_SESSION_TOKEN', 'TMDB_GUEST_SESSION_TOKEN'); // for guest sessions
+define('TMDB_ACCOUNT_ID', 'TMDB_ACCOUNT_ID'); // numeric id, fetch through account info
+
+// Account based
+define('TMDB_LIST_ID', 'TMDB_LIST_ID');
