@@ -2,7 +2,9 @@
 declare(strict_types=1);
 
 namespace App\Controller;
+
 use App\Utils\Apis\TmdbClient;
+use Tmdb\Model\Collection\ResultCollection;
 
 
 /**
@@ -38,12 +40,33 @@ class TmdbController extends AppController
         if (!empty($search_term)) {
             // Get the search results from the TMDb API
             $client_search = TmdbClient::getInstance()->getClientSearchApi();
-            $tmdb = $client_search->searchMulti($search_term);
+            $tmdb_result = $client_search->searchMulti($search_term);
 
-            \Cake\Log\Log::error(print_r($tmdb, true));
+            if (!empty($tmdb_result)) {
+                // Get the image helper
+                $image_helper = TmdbClient::getInstance()->getImageHelper();
+
+                // Loop through the results and get the images
+                foreach ($tmdb_result['results'] as $key => $result) {
+                    if (isset($result['backdrop_path'])) {
+                        $tmdb_result['results'][$key]['backdrop_url'] = 'https:' . $image_helper->getUrl($result['backdrop_path'], 'w300');
+                    }
+
+                    if (isset($result['poster_path'])) {
+                        $tmdb_result['results'][$key]['poster_url'] = 'https:' . $image_helper->getUrl($result['poster_path'], 'w300');
+                    }
+
+                    if (isset($result['profile_path'])) {
+                        $tmdb_result['results'][$key]['profile_url'] = 'https:' . $image_helper->getUrl($result['profile_path'], 'w300');
+                    }
+                }
+            }
+
+            // Convert array $tmdb_result to object
+            $tmdb_result['results'] = json_decode(json_encode($tmdb_result['results']));
 
             // Set the search term and results to the view
-            $this->set(compact('search_term', 'tmdb'));
+            $this->set(compact('search_term', 'tmdb_result'));
         }
     }
 }

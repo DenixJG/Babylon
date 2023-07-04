@@ -2,7 +2,7 @@
 
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Movie[]|\Cake\Collection\CollectionInterface $shows
+ * @var \App\Model\Entity\Show[]|\Cake\Collection\CollectionInterface $shows
  */
 ?>
 

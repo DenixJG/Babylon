@@ -178,6 +178,7 @@
     <!--begin::Global Javascript Bundle(used by all pages)-->
     <?= $this->Html->script('/plugins/global/plugins.bundle.js'); ?>
     <?= $this->Html->script('scripts.bundle.js'); ?>
+    <?= $this->Html->script('/plugins/custom/hotkeys/hotkeys.min.js'); ?>
     <!--end::Global Javascript Bundle-->
 
     <!--begin::Page Vendors Javascript(used by this page)-->

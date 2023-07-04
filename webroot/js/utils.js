@@ -203,6 +203,10 @@ class Utils {
      * with the response from the server as the parameter.
      *
      * To use this function, you must include jQuery in your html file.
+     * 
+     * If you set params the url will be modified to include the params
+     * in the url. For example, if the url is /users and the params is
+     * {id: 1, name: "John"} the url will be /users?id=1&name=John
      *
      * @param {string} url The url to send the request to
      * @param {string} params.method The method to use for the request
@@ -211,6 +215,7 @@ class Utils {
      * @param {string} params.dataType The type of data to expect from the server
      * @param {boolean} params.processData Whether to process the data or not
      * @param {string} params.contentType The type of content to send to the server
+     * @param {object} params.params The parameters to pass to request
      * @param {function} callback The callback function to execute after the request is successful
      *
      * @returns {Promise} The promise object representing the response from the server
@@ -224,6 +229,7 @@ class Utils {
             dataType = "json",
             processData = true,
             contentType = "application/x-www-form-urlencoded; charset=UTF-8",
+            params = {},
         } = {},
         callback = undefined
     ) {
@@ -236,7 +242,7 @@ class Utils {
         }
 
         return $.ajax({
-            url: url,
+            url: url + Utils.formatUrlParams(params),
             type: method,
             processData: processData,
             contentType: contentType,
@@ -260,5 +266,56 @@ class Utils {
                 console.error(error);
             },
         });
+    }
+
+    /**
+     * Format the url parameters into a string of key-value pairs. This string is also 
+     * URL encoded to be used in the url of the request;
+     * 
+     * If the params object contains keys like roles: [1, 2, 3] it will be formatted to
+     * roles[]=1&roles[]=2&roles[]=3 or if the params object contains keys like roles: {description: "admin"}
+     * it will be formatted to roles[description]=admin.
+     *
+     * @param {object} params The parameters to format
+     * @returns {string} The formatted string of key-value pairs
+     */
+    static formatUrlParams(params = {}) {
+        // Check if the params is an object
+        if (typeof params !== "object") {
+            return "";
+        }
+
+        // Check if the params is empty
+        if (Object.keys(params).length === 0) {
+            return "";
+        }
+
+        let formattedParams = "";
+
+        // Loop through the params object
+        for (const [key, value] of Object.entries(params)) {
+            // Check if the value is an array
+            if (Array.isArray(value)) {
+                // Loop through the array
+                for (const element of value) {
+                    formattedParams += `${key}[]=${element}&`;
+                }
+            } else if (typeof value === "object") {
+                // Loop through the object
+                for (const [childKey, childValue] of Object.entries(value)) {
+                    formattedParams += `${key}[${childKey}]=${childValue}&`;
+                }
+            } else {
+                formattedParams += `${key}=${value}&`;
+            }
+        }
+
+        // Remove the last character from the formattedParams string
+        formattedParams = formattedParams.slice(0, -1);
+
+        // Encode the formattedParams string
+        formattedParams = encodeURI(formattedParams);
+
+        return formattedParams !== "" ? `?${formattedParams}` : "";
     }
 }

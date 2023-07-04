@@ -28,7 +28,9 @@ use Tmdb\Event\ResponseEvent;
 use Tmdb\Event\TmdbExceptionEvent;
 use Tmdb\Formatter\Hydration\SimpleHydrationFormatter;
 use Tmdb\Formatter\TmdbApiException\SimpleTmdbApiExceptionFormatter;
+use Tmdb\Helper\ImageHelper;
 use Tmdb\Model\Search\SearchQuery\KeywordSearchQuery;
+use Tmdb\Repository\ConfigurationRepository;
 use Tmdb\Token\Api\ApiToken;
 use Tmdb\Token\Api\BearerToken;
 
@@ -60,7 +62,7 @@ class TmdbClient
     {
         $this->token = defined('TMDB_BEARER_TOKEN') && TMDB_BEARER_TOKEN !== 'TMDB_BEARER_TOKEN' ?
             new BearerToken(TMDB_BEARER_TOKEN) :
-            new ApiToken(TMDB_API_KEY);            
+            new ApiToken(TMDB_API_KEY);
 
         $this->ed = new EventDispatcher();
 
@@ -128,7 +130,7 @@ class TmdbClient
         $this->setLoggerSetup();
 
         $this->addPlugins();
-    }    
+    }
 
     public static function getInstance()
     {
@@ -139,14 +141,61 @@ class TmdbClient
         return self::$instance;
     }
 
+    /**
+     * Return the TMDB client.
+     *
+     * @return Client
+     */
     public function getClient()
     {
         return $this->client;
     }
 
+    /**
+     * Return the search API.
+     *
+     * @return \Tmdb\Api\Search
+     */
     public function getClientSearchApi()
     {
         return $this->client->getSearchApi();
+    }
+
+    /**
+     * Returns the configuration API.
+     *
+     * @return \Tmdb\Api\Configuration
+     */
+    public function getConfigurationApi()
+    {
+        return $this->client->getConfigurationApi();
+    }
+
+    /**
+     * Return the ConfigurationRepository.
+     *
+     * @return \Tmdb\Model\Configuration
+     */
+    public function getConfigurationRepository()
+    {
+        $configurationRepository = new ConfigurationRepository($this->client);
+
+        return $configurationRepository->load();
+    }
+
+    /**
+     * Get the ImageHelper based on the configuration.
+     *
+     * @param \Tmdb\Model\Configuration $configuration
+     * @return ImageHelper
+     */
+    public function getImageHelper($configuration = null)
+    {
+        if (!$configuration) {
+            $configuration = $this->getConfigurationRepository();
+        }
+
+        return new ImageHelper($configuration);        
     }
 
     private function setLoggerSetup()
@@ -179,7 +228,7 @@ class TmdbClient
 
     private function addPlugins()
     {
-        $adultFilterListener = new AdultFilterRequestListener(false);
+        $adultFilterListener = new AdultFilterRequestListener(true);
         $this->ed->addListener(BeforeRequestEvent::class, $adultFilterListener);
 
         $languageFilterListener = new LanguageFilterRequestListener(TMDB_LANGUAGE);
