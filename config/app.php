@@ -420,5 +420,6 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
+        'timeout' => 60 * 24 * 30, // 30 days
     ],
 ];
