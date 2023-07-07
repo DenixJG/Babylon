@@ -27,10 +27,13 @@
             <?php endif; ?>
 
         <?php endif; ?>
-        <div class=" card-title">
-            <button type="button" class="btn btn-sm btn-light">
-                Add to Library
-            </button>
+        <div class="card-title">
+            <?= $this->Form->button(__d('tmdb', 'Add to Library'), [
+                'type' => 'button',
+                'data-tmdb-id' => $result->id,
+                'class' => 'btn btn-sm btn-light btn-add-to-library',
+                'data-action' => 'add-to-library',
+            ]) ?>            
         </div>
     </div>
     <!--begin::Card body-->
@@ -38,9 +41,9 @@
         <!--begin::Avatar-->
         <div class="text-center px-4">
             <?php if (isset($result->profile_url)): ?>
-                <img class="mw-100 mh-300px card-rounded-bottom" src="<?= $result->profile_url ?? '#' ?>" alt="image">            
-                <?php else: ?>
-                    <img class="mw-100 mh-300px card-rounded-bottom" src="<?= $result->poster_url ?? '#' ?>" alt="image">                        
+                <img class="mw-100 mh-300px card-rounded-bottom" src="<?= $result->profile_url ?? '#' ?>" alt="image">
+            <?php else: ?>
+                <img class="mw-100 mh-300px card-rounded-bottom" src="<?= $result->poster_url ?? '#' ?>" alt="image">
             <?php endif; ?>
         </div>
         <!--end::Avatar-->
@@ -71,8 +74,8 @@
                     </div>
                 </div>
                 <!--end::Stats-->
-
-            <?php elseif(isset($result->first_air_date) && !empty($result->first_air_date)): ?>
+                
+            <?php elseif (isset($result->first_air_date) && !empty($result->first_air_date)): ?>
                 <!--begin::Stats-->
                 <div class="border border-dashed rounded min-w-75px py-3 px-4 mx-2 mb-3">
                     <div class="fs-6 fw-boldest text-gray-700">

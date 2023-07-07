@@ -2,6 +2,8 @@ $(document).ready(function () {
     initShortcuts();
 
     initSearchBtnEvents();
+    
+    initAddToLibraryBtnEvents();
 });
 
 /**
@@ -39,13 +41,48 @@ function initSearchBtnEvents() {
     });
 }
 
+/**
+ * Focus on search input and select all text
+ */
 function focusSearchInput() {
     $("#search-input").focus();
     $("#search-input").select();
 }
 
+/**
+ * Initialize all shortcuts for this page
+ */
 function initShortcuts() {
     hotkeys("alt+l", function (event, handler) {
         focusSearchInput();
+    });
+}
+
+function testSweetAlert(result, params) {
+    const callbackResponse = new CallbackResponse(true);
+    
+    console.log(result);
+    console.log(params);
+
+    callbackResponse.setMessage("Movie added to library successfully");    
+    
+    return callbackResponse;
+}
+
+/**
+ * Initialize all events listeners for btn-add-to-library
+ */
+
+function initAddToLibraryBtnEvents() {
+    $(".btn-add-to-library").off("click");
+    $(".btn-add-to-library").on("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        Utils.sweetAlert({
+            title: "Add to library",
+            text: "Are you sure you want to add this movie to your library?",
+            icon: "info",
+        }, testSweetAlert)
     });
 }

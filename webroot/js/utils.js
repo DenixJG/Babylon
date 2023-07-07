@@ -5,27 +5,69 @@
  * want to use the sendAjaxRequest function, you must also include the csrfToken meta tag
  * in your html file into a meta tag with the name csrfToken.
  *
- * Example: <meta name="csrfToken" content="csrfToken">
+ * Example: `<meta name="csrfToken" content="csrfToken">`
  *
  * @class Utils
  * @author Rafael
- * @version 1.0.0
+ * @version 1.0.1
  */
 class Utils {
     /**
      * Show a toast message using the toastr library
      *
-     * @param {string} type
-     * @param {string} message
-     * @param {string|undefined} title
-     * @param {object} options
+     * This toast element has a default options that can be overriden by passing
+     * an object as the last parameter.
+     *
+     * Usage:
+     *
+     * ```js
+     * // Show a success message with the default options and no title
+     * Utils.showToast("success", "This is a success message");
+     *
+     * // Show an info message with the default options and a title
+     * Utils.showToast("info", "This is an error message", "Information");
+     *
+     * // Show a warning message with modified options and no title
+     * Utils.showToast("warning", "This is a warning message", undefined, {
+     *   closeButton: true,
+     *   progressBar: true,
+     *   timeOut: "5000",
+     * });
+     *
+     * ```
+     *
+     *
+     * @param {string} type The type of the message, can be `success`, `info`, `warning` or `error`
+     * @param {string} message The message to show
+     * @param {string|undefined} title The title of the message
+     * @param {object} options The options to use for the toastr message
+     *
+     * @param {boolean} options.closeButton Show the close button
+     * @param {boolean} options.debug Show the debug button
+     * @param {boolean} options.newestOnTop Show the newest message on top
+     * @param {boolean} options.progressBar Show the progress bar
+     * @param {string} options.positionClass The position of the message
+     * @param {boolean} options.preventDuplicates Prevent duplicate messages
+     * @param {function} options.onclick The callback function when the message is clicked
+     * @param {string} options.showDuration The duration of the show animation
+     * @param {string} options.hideDuration The duration of the hide animation
+     * @param {string} options.timeOut The duration of the message
+     * @param {string} options.extendedTimeOut The duration of the message when the mouse is over it
+     * @param {string} options.showEasing The easing of the show animation
+     * @param {string} options.hideEasing The easing of the hide animation
+     * @param {string} options.showMethod The method of the show animation
+     * @param {string} options.hideMethod The method of the hide animation
+     *
+     * @throws {Error} If toastr is not loaded
+     *
+     * @returns {void}
      */
     static showToast(
         type,
         message,
         title = undefined,
         {
-            closeButton = false,
+            closeButton = true,
             debug = false,
             newestOnTop = false,
             progressBar = false,
@@ -42,6 +84,13 @@ class Utils {
             hideMethod = "fadeOut",
         } = {}
     ) {
+        // Check if toastr is loaded
+        if (typeof toastr === "undefined") {
+            throw new Error(
+                "Utils.showToast requires toastr library to be loaded"
+            );
+        }
+
         toastr.options = {
             closeButton: closeButton,
             debug: debug,
@@ -82,14 +131,14 @@ class Utils {
      * If the callback function is not provided, a success message will be shown.
      * If the callback function does not return a boolean value, an error message will be shown.
      *
-     * @param {object} params The parameters to use for the sweet alert
-     * @param {string} params.title The title of the sweet alert
-     * @param {string} params.text The text of the sweet alert
-     * @param {string} params.icon The icon to use for the sweet alert
-     * @param {boolean} params.showCancelButton Whether to show the cancel button or not
-     * @param {string} params.confirmButtonText The text to use for the confirm button
-     * @param {string} params.cancelButtonText The text to use for the cancel button
-     * @param {boolean} params.reverseButtons Whether to reverse the buttons or not
+     * @param {object} options The parameters to use for the sweet alert
+     * @param {string} options.title The title of the sweet alert
+     * @param {string} options.text The text of the sweet alert
+     * @param {string} options.icon The icon to use for the sweet alert
+     * @param {boolean} options.showCancelButton Whether to show the cancel button or not
+     * @param {string} options.confirmButtonText The text to use for the confirm button
+     * @param {string} options.cancelButtonText The text to use for the cancel button
+     * @param {boolean} options.reverseButtons Whether to reverse the buttons or not
      * @param {function} callback The callback function to execute after the user clicks the confirm button
      * @param {object} params The parameters to pass to the callback function
      *
@@ -108,6 +157,13 @@ class Utils {
         callback = undefined,
         params = undefined
     ) {
+        // Check if SweetAlert2 is loaded
+        if (typeof Swal === "undefined") {
+            throw new Error(
+                "Utils.sweetAlert requires SweetAlert2 library to be loaded"
+            );
+        }
+
         Swal.fire({
             title: title,
             text: text,
@@ -120,38 +176,40 @@ class Utils {
             if (result.isConfirmed) {
                 if (callback) {
                     let callbackReturn = callback(result, params);
-                    if (typeof callbackReturn === "boolean") {
-                        if (callbackReturn) {
+
+                    // Check if callback returns object of CallbackResponse
+                    if (callbackReturn instanceof CallbackResponse) {
+                        let { success, message } = callbackReturn;
+
+                        if (success) {
                             Swal.fire(
-                                "Deleted!",
-                                "Your file has been deleted.",
+                                "Success!",
+                                message ||
+                                    "Your action has been executed successfully.",
                                 "success"
                             );
                         } else {
                             Swal.fire(
-                                "Error deleting!",
-                                "Your file has not been deleted. You can try again.",
+                                "Error!",
+                                message || "Your action has not been executed.",
                                 "error"
                             );
                         }
                     } else {
+                        console.error(callbackReturn);
                         throw new Error(
-                            "The callback function must return a boolean value"
+                            "Callback function must return an instance of CallbackResponse"
                         );
                     }
                 } else {
                     Swal.fire(
-                        "Deleted!",
-                        "Your file has been deleted.",
+                        "Success!",
+                        "Your action has been executed successfully.",
                         "success"
                     );
                 }
             } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire(
-                    "Cancelled",
-                    "Your imaginary file is safe :)",
-                    "error"
-                );
+                console.log("Cancel button clicked");
             }
         });
     }
@@ -203,7 +261,7 @@ class Utils {
      * with the response from the server as the parameter.
      *
      * To use this function, you must include jQuery in your html file.
-     * 
+     *
      * If you set params the url will be modified to include the params
      * in the url. For example, if the url is /users and the params is
      * {id: 1, name: "John"} the url will be /users?id=1&name=John
@@ -233,8 +291,14 @@ class Utils {
         } = {},
         callback = undefined
     ) {
-        let customData = {};
+        // Check if jQuery is loaded
+        if (typeof $ === "undefined") {
+            throw new Error(
+                "Utils.sendAjaxRequest requires jQuery library to be loaded"
+            );
+        }
 
+        let customData = {};
         if (data instanceof FormData) {
             customData = Utils.formDataToObject(data);
         } else {
@@ -269,9 +333,9 @@ class Utils {
     }
 
     /**
-     * Format the url parameters into a string of key-value pairs. This string is also 
+     * Format the url parameters into a string of key-value pairs. This string is also
      * URL encoded to be used in the url of the request;
-     * 
+     *
      * If the params object contains keys like roles: [1, 2, 3] it will be formatted to
      * roles[]=1&roles[]=2&roles[]=3 or if the params object contains keys like roles: {description: "admin"}
      * it will be formatted to roles[description]=admin.
