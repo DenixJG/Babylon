@@ -6,9 +6,9 @@ namespace App\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * MoviesFixture
+ * MovieGenresFixture
  */
-class MoviesFixture extends TestFixture
+class MovieGenresFixture extends TestFixture
 {
     /**
      * Init method
@@ -20,12 +20,8 @@ class MoviesFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'tmdb_id' => 1,
-                'status_id' => 1,
-                'title' => 'Lorem ipsum dolor sit amet',
-                'release_date' => '2023-07-08',
-                'created' => '2023-07-08 14:28:16',
-                'modified' => '2023-07-08 14:28:16',
+                'genre_id' => 1,
+                'movie_id' => 1,
             ],
         ];
         parent::init();

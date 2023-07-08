@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\ShowsTable;
+use App\Model\Table\MovieGenresTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\ShowsTable Test Case
+ * App\Model\Table\MovieGenresTable Test Case
  */
-class ShowsTableTest extends TestCase
+class MovieGenresTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\ShowsTable
+     * @var \App\Model\Table\MovieGenresTable
      */
-    protected $Shows;
+    protected $MovieGenres;
 
     /**
      * Fixtures
@@ -24,11 +24,9 @@ class ShowsTableTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.Shows',
-        'app.ShowStatuses',
-        'app.Seasons',
-        'app.ShowDirectors',
-        'app.ShowGenres',
+        'app.MovieGenres',
+        'app.Genres',
+        'app.Movies',
     ];
 
     /**
@@ -39,8 +37,8 @@ class ShowsTableTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Shows') ? [] : ['className' => ShowsTable::class];
-        $this->Shows = $this->getTableLocator()->get('Shows', $config);
+        $config = $this->getTableLocator()->exists('MovieGenres') ? [] : ['className' => MovieGenresTable::class];
+        $this->MovieGenres = $this->getTableLocator()->get('MovieGenres', $config);
     }
 
     /**
@@ -50,7 +48,7 @@ class ShowsTableTest extends TestCase
      */
     protected function tearDown(): void
     {
-        unset($this->Shows);
+        unset($this->MovieGenres);
 
         parent::tearDown();
     }
@@ -59,7 +57,7 @@ class ShowsTableTest extends TestCase
      * Test validationDefault method
      *
      * @return void
-     * @uses \App\Model\Table\ShowsTable::validationDefault()
+     * @uses \App\Model\Table\MovieGenresTable::validationDefault()
      */
     public function testValidationDefault(): void
     {
@@ -70,7 +68,7 @@ class ShowsTableTest extends TestCase
      * Test buildRules method
      *
      * @return void
-     * @uses \App\Model\Table\ShowsTable::buildRules()
+     * @uses \App\Model\Table\MovieGenresTable::buildRules()
      */
     public function testBuildRules(): void
     {
