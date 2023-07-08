@@ -52,7 +52,12 @@ class MoviesTable extends Table
             'foreignKey' => 'status_id',
             'joinType' => 'INNER',
         ]);
+
         $this->hasMany('MovieDirectors', [
+            'foreignKey' => 'movie_id',
+        ]);
+
+        $this->hasMany('MovieGenres', [
             'foreignKey' => 'movie_id',
         ]);
     }
@@ -66,14 +71,18 @@ class MoviesTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->scalar('title')
-            ->maxLength('title', 255)
-            ->requirePresence('title', 'create')
-            ->notEmptyString('title');
+            ->integer('tmdb_id')
+            ->allowEmptyString('tmdb_id');
 
         $validator
             ->integer('status_id')
             ->notEmptyString('status_id');
+
+        $validator
+            ->scalar('title')
+            ->maxLength('title', 255)
+            ->requirePresence('title', 'create')
+            ->notEmptyString('title');
 
         $validator
             ->date('release_date')

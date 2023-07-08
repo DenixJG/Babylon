@@ -14,6 +14,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ShowStatusesTable&\Cake\ORM\Association\BelongsTo $ShowStatuses
  * @property \App\Model\Table\SeasonsTable&\Cake\ORM\Association\HasMany $Seasons
  * @property \App\Model\Table\ShowDirectorsTable&\Cake\ORM\Association\HasMany $ShowDirectors
+ * @property \App\Model\Table\ShowGenresTable&\Cake\ORM\Association\HasMany $ShowGenres
  *
  * @method \App\Model\Entity\Show newEmptyEntity()
  * @method \App\Model\Entity\Show newEntity(array $data, array $options = [])
@@ -53,6 +54,10 @@ class ShowsTable extends Table
             'foreignKey' => 'show_id',
         ]);
         $this->hasMany('ShowDirectors', [
+            'foreignKey' => 'show_id',
+        ]);
+
+        $this->hasMany('ShowGenres', [
             'foreignKey' => 'show_id',
         ]);
     }

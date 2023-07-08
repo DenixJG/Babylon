@@ -6,18 +6,16 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Show Entity
+ * Genre Entity
  *
  * @property int $id
- * @property string $title
- * @property int $status_id
+ * @property int|null $tmdb_id
+ * @property string $name
  *
- * @property \App\Model\Entity\ShowStatus $show_status
- * @property \App\Model\Entity\Season[] $seasons
- * @property \App\Model\Entity\ShowDirector[] $show_directors
+ * @property \App\Model\Entity\MovieGenre[] $movie_genres
  * @property \App\Model\Entity\ShowGenre[] $show_genres
  */
-class Show extends Entity
+class Genre extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -29,11 +27,9 @@ class Show extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'title' => true,
-        'status_id' => true,
-        'show_status' => true,
-        'seasons' => true,
-        'show_directors' => true,
+        'tmdb_id' => true,
+        'name' => true,
+        'movie_genres' => true,
         'show_genres' => true,
     ];
 }

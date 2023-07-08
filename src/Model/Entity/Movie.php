@@ -9,8 +9,9 @@ use Cake\ORM\Entity;
  * Movie Entity
  *
  * @property int $id
- * @property string $title
+ * @property int|null $tmdb_id
  * @property int $status_id
+ * @property string $title
  * @property \Cake\I18n\FrozenDate $release_date
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
@@ -30,8 +31,9 @@ class Movie extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'title' => true,
+        'tmdb_id' => true,
         'status_id' => true,
+        'title' => true,
         'release_date' => true,
         'created' => true,
         'modified' => true,

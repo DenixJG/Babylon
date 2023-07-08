@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -120,13 +119,6 @@ class UsersTable extends Table
         return $validator;
     }
 
-    public function beforeSave(EventInterface $event, User $entity, ArrayObject $options)
-    {
-        if ($entity->isDirty('email')) {
-            $entity->hash = Uuid::uuid5(env('APP_UUID_NAMESPACE'), $entity->email)->toString();
-        }
-    }
-
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -142,7 +134,14 @@ class UsersTable extends Table
 
         return $rules;
     }
-    
+
+    public function beforeSave(EventInterface $event, User $entity, ArrayObject $options)
+    {
+        if ($entity->isDirty('email')) {
+            $entity->hash = Uuid::uuid5(env('APP_UUID_NAMESPACE'), $entity->email)->toString();
+        }
+    }
+
     /**
      * Get user by id with optional contain associations
      *
@@ -155,8 +154,8 @@ class UsersTable extends Table
         return $this->find()
             ->contain($contain)
             ->where(['Users.id' => $id])
-            ->first();            
-    }    
+            ->first();
+    }
 
     public function findForList(Query $query, array $options)
     {
