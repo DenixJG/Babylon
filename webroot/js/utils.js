@@ -139,6 +139,7 @@ class Utils {
      * @param {string} options.confirmButtonText The text to use for the confirm button
      * @param {string} options.cancelButtonText The text to use for the cancel button
      * @param {boolean} options.reverseButtons Whether to reverse the buttons or not
+     * @param {boolean} options.showSweetAlert Whether to show the sweet alert or show a toast message instead
      * @param {function} callback The callback function to execute after the user clicks the confirm button
      * @param {object} params The parameters to pass to the callback function
      *
@@ -153,6 +154,7 @@ class Utils {
             confirmButtonText = "Yes, delete it!",
             cancelButtonText = "No, cancel!",
             reverseButtons = true,
+            showSweetAlert = false,
         } = {},
         callback = undefined,
         params = undefined
@@ -172,28 +174,32 @@ class Utils {
             confirmButtonText: confirmButtonText,
             cancelButtonText: cancelButtonText,
             reverseButtons: reverseButtons,
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
                 if (callback) {
-                    let callbackReturn = callback(result, params);
+                    let callbackReturn = await callback(result, params);
 
                     // Check if callback returns object of CallbackResponse
                     if (callbackReturn instanceof CallbackResponse) {
                         let { success, message } = callbackReturn;
 
-                        if (success) {
+                        if (success && showSweetAlert) {
                             Swal.fire(
                                 "Success!",
                                 message ||
                                     "Your action has been executed successfully.",
                                 "success"
                             );
-                        } else {
+                        } else if (success && !showSweetAlert) {
+                            Utils.showToast("success", message);
+                        } else if (!success && showSweetAlert) {
                             Swal.fire(
                                 "Error!",
                                 message || "Your action has not been executed.",
                                 "error"
                             );
+                        } else if (!success && !showSweetAlert) {
+                            Utils.showToast("error", message);
                         }
                     } else {
                         console.error(callbackReturn);
@@ -202,11 +208,18 @@ class Utils {
                         );
                     }
                 } else {
-                    Swal.fire(
-                        "Success!",
-                        "Your action has been executed successfully.",
-                        "success"
-                    );
+                    if (showSweetAlert) {
+                        Swal.fire(
+                            "Success!",
+                            "Your action has been executed successfully.",
+                            "success"
+                        );
+                    } else {
+                        Utils.showToast(
+                            "success",
+                            "Your action has been executed successfully."
+                        );
+                    }
                 }
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 console.log("Cancel button clicked");
@@ -267,6 +280,7 @@ class Utils {
      * {id: 1, name: "John"} the url will be /users?id=1&name=John
      *
      * @param {string} url The url to send the request to
+     * @param {object} params The parameters to use for the request
      * @param {string} params.method The method to use for the request
      * @param {string} params.action The action to perform on the server
      * @param {object} params.data The data to send to the server
@@ -381,5 +395,55 @@ class Utils {
         formattedParams = encodeURI(formattedParams);
 
         return formattedParams !== "" ? `?${formattedParams}` : "";
+    }
+
+    /**
+     * Show a loading overlay on the specified selector
+     *
+     * TODO: Add support for options parameter
+     *
+     * @param {*} selector JQuery selector to show the loading overlay on
+     * @param {*} options The options to use for the loading overlay
+     * @param {*} options.background The background color of the loading overlay
+     */
+    static showLoading(
+        selector = "body",
+        {
+            image = "",
+            background = "rgba(220, 220, 220, 0.3)",
+            fontawesome = "fa fa-circle-notch fa-spin",
+        } = {}
+    ) {
+        if (typeof $.LoadingOverlay === "undefined") {
+            throw new Error(
+                "Utils.showLoading requires jQuery plugin LoadingOverlay to be loaded"
+            );
+        }
+
+        // Set the options
+        const options = {
+            background: background,
+            fontawesome: fontawesome,
+            image: image,
+        };
+
+        $(selector).LoadingOverlay("show", options);
+    }
+
+    /**
+     * Hide the loading overlay on the specified selector
+     *
+     *
+     * @param {*} selector JQuery selector to hide the loading overlay on
+     * @param {*} force Whether to force all loading overlays to be hidden
+     */
+    static hideLoading(selector = "body", force = false) {
+        if (typeof $.LoadingOverlay === "undefined") {
+            throw new Error(
+                "Utils.hideLoading requires jQuery plugin LoadingOverlay to be loaded"
+            );
+        }
+
+        $(selector).LoadingOverlay("hide", force);
     }
 }

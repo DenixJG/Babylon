@@ -179,6 +179,7 @@
     <?= $this->Html->script('/plugins/global/plugins.bundle.js'); ?>
     <?= $this->Html->script('scripts.bundle.js'); ?>
     <?= $this->Html->script('/plugins/custom/hotkeys/hotkeys.min.js'); ?>
+    <?= $this->Html->script('/plugins/custom/loadingoverlay/loadingoverlay.min.js'); ?>
     <!--end::Global Javascript Bundle-->
 
     <!--begin::Page Vendors Javascript(used by this page)-->
@@ -195,6 +196,7 @@
         
     <?= $this->Html->script('callback_response.js'); ?>
     <?= $this->Html->script('utils.js'); ?>
+    
     <?= $this->fetch('custom-scripts') ?>
 
     <!--end::Page Custom Javascript-->

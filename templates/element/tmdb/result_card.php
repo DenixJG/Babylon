@@ -5,7 +5,7 @@
  */
 ?>
 <!--begin::Card-->
-<div class="card card-stretch">
+<div class="card card-stretch tmdb-result-card" data-tmdb-id="<?= $result->id ?? '' ?>">
     <div class="card-header justify-content-end ribbon ribbon-start">
         <?php if (isset($result->media_type) && !empty($result->media_type)): ?>
             <?php if (strtolower($result->media_type) === 'movie'): ?>
@@ -31,9 +31,10 @@
             <?= $this->Form->button(__d('tmdb', 'Add to Library'), [
                 'type' => 'button',
                 'data-tmdb-id' => $result->id,
+                'data-tmdb-media-type' => $result->media_type ?? '',
                 'class' => 'btn btn-sm btn-light btn-add-to-library',
                 'data-action' => 'add-to-library',
-            ]) ?>            
+            ]) ?>
         </div>
     </div>
     <!--begin::Card body-->
@@ -41,9 +42,9 @@
         <!--begin::Avatar-->
         <div class="text-center px-4">
             <?php if (isset($result->profile_url)): ?>
-                <img class="mw-100 mh-300px card-rounded-bottom" src="<?= $result->profile_url ?? '#' ?>" alt="image">
+                <img class="mw-100 mh-300px rounded" src="<?= $result->profile_url ?? '#' ?>" alt="image">
             <?php else: ?>
-                <img class="mw-100 mh-300px card-rounded-bottom" src="<?= $result->poster_url ?? '#' ?>" alt="image">
+                <img class="mw-100 mh-300px rounded" src="<?= $result->poster_url ?? '#' ?>" alt="image">
             <?php endif; ?>
         </div>
         <!--end::Avatar-->
@@ -74,7 +75,7 @@
                     </div>
                 </div>
                 <!--end::Stats-->
-                
+
             <?php elseif (isset($result->first_air_date) && !empty($result->first_air_date)): ?>
                 <!--begin::Stats-->
                 <div class="border border-dashed rounded min-w-75px py-3 px-4 mx-2 mb-3">

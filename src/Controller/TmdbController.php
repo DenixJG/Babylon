@@ -4,8 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Utils\Apis\TmdbClient;
-use Tmdb\Model\Collection\ResultCollection;
-
+use Cake\View\JsonView;
 
 /**
  * Tmdb Controller
@@ -14,15 +13,29 @@ use Tmdb\Model\Collection\ResultCollection;
  */
 class TmdbController extends AppController
 {
+
+    /** @var \App\Model\Table\MoviesTable */
+    private $Movies;
+
+    /** @var \App\Model\Table\GenresTable */
+    private $Genres;
+
     public function initialize(): void
     {
         parent::initialize();
+
+        $this->Movies = $this->fetchTable('Movies');
+        $this->Genres = $this->fetchTable('Genres');
 
         $this->menu = 'external_sources';
         $this->submenu = 'tmdb';
         $this->section_title = 'The Movie Database';
     }
 
+    public function viewClasses(): array
+    {
+        return [JsonView::class];
+    }
     /**
      * View method
      *
@@ -68,5 +81,37 @@ class TmdbController extends AppController
             // Set the search term and results to the view
             $this->set(compact('search_term', 'tmdb_result'));
         }
+    }
+
+    /**
+     * Add to library any resource from TMDb API
+     *
+     * @return \Cake\Http\Response|null|void Return a response with JSON data
+     */
+    public function addToLibrary()
+    {
+        // Only allow POST requests from AJAX calls
+        if (!$this->request->is(['POST', 'AJAX'])) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Only POST requests are allowed'
+            ]);
+        }
+
+        // Get the data from the request
+        $data = $this->request->getData();
+
+        // Check if the data is empty
+        if (empty($data)) {
+            return $this->json([
+                'success' => false,
+                'message' => 'No data received'
+            ]);
+        }
+
+        return $this->json([
+            'success' => true,
+            'message' => 'Data received'
+        ]);
     }
 }

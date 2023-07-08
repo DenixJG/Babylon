@@ -20,6 +20,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
+use Cake\View\View;
 
 /**
  * Application Controller
@@ -108,5 +109,33 @@ class AppController extends Controller
         $this->set('menu', $this->menu);
         $this->set('submenu', $this->submenu);
         $this->set('section_title', $this->section_title);
+    }
+
+    /**
+     * This function helps to return json data from controller
+     * 
+     * Is required to create on each Template folder subfolder named "json" and inside
+     * create a file with the name json.php that make a echo of the encoded data to return
+     * 
+     * Example:
+     * 
+     * ```php
+     *  <?php
+     *  echo json_encode($json_data);
+     * ```
+     *
+     * @param mixed $data Data to return
+     * @param integer $status Status code to return
+     * 
+     * @return \Cake\Http\Response
+     */
+    protected function json($data = null, $status = 200)
+    {
+        $this->disableAutoRender();
+
+        $this->response = $this->response->withStatus($status);
+                    
+        $this->set('json_data', $data);
+        return $this->render('json');
     }
 }
