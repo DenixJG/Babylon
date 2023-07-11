@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Utils\Apis\TmdbClient;
+use Cake\Datasource\FactoryLocator;
 use Cake\View\JsonView;
 
 /**
@@ -20,22 +21,22 @@ class TmdbController extends AppController
     /** @var \App\Model\Table\GenresTable */
     private $Genres;
 
+    /** @var \App\Model\Table\ShowsTable */
+    private $Shows;
+
     public function initialize(): void
     {
         parent::initialize();
 
         $this->Movies = $this->fetchTable('Movies');
+        $this->Shows  = $this->fetchTable('Shows');
         $this->Genres = $this->fetchTable('Genres');
 
-        $this->menu = 'external_sources';
-        $this->submenu = 'tmdb';
+        $this->menu          = 'external_sources';
+        $this->submenu       = 'tmdb';
         $this->section_title = 'The Movie Database';
     }
 
-    public function viewClasses(): array
-    {
-        return [JsonView::class];
-    }
     /**
      * View method
      *
@@ -53,7 +54,7 @@ class TmdbController extends AppController
         if (!empty($search_term)) {
             // Get the search results from the TMDb API
             $client_search = TmdbClient::getInstance()->getClientSearchApi();
-            $tmdb_result = $client_search->searchMulti($search_term);
+            $tmdb_result   = $client_search->searchMulti($search_term);
 
             if (!empty($tmdb_result)) {
                 // Get the image helper
@@ -99,19 +100,89 @@ class TmdbController extends AppController
         }
 
         // Get the data from the request
-        $data = $this->request->getData();
+        $action = $this->request->getData('action');
+        $data   = $this->request->getData();
+        \Cake\Log\Log::error(print_r($data, true));
 
-        // Check if the data is empty
-        if (empty($data)) {
+        $tmdb_id    = $data['data']['tmdbId'] ?? null;
+        $media_type = $data['data']['mediaType'] ?? null;
+        if (empty($tmdb_id) || empty($media_type)) {
             return $this->json([
                 'success' => false,
                 'message' => 'No data received'
             ]);
         }
 
+        // Based on the media type, get the correct table and entity
+        $Table = $this->getTableByMedia($media_type);
+
+        // Check if the table have the getByTmdbId method
+        if (!method_exists($Table, 'getByTmdbId')) {
+            \Cake\Log\Log::error(print_r('The table ' . $Table->getAlias() . ' does not have the getByTmdbId method', true));
+            return $this->json([
+                'success' => false,
+                'message' => 'Something went wrong, contact the administrator for more information'
+            ]);
+        }
+
+        // Get the entity by the TMDb id
+        $entity = $Table->getByTmdbId((int) $tmdb_id);
+
+        // Check if the entity exists
+        if (!empty($entity)) {
+            return $this->json([
+                'success' => false,
+                'message' => __d('tmdb', 'The {0} already exists in the library', $media_type)
+            ]);
+        }
+
+        // Get the data from the TMDb API and save it to the database
+        $client      = TmdbClient::getInstance()->getClient();
+        $remote_data = $this->getRemoteData($client, $media_type, $tmdb_id);
+
+        // Parse the data to the correct entity and save it to the database
+        $entity = $Table->parseDataToEntity($remote_data);
+
+        // Save the entity to the database
+        if (!$Table->save($entity)) {
+            \Cake\Log\Log::error(print_r($entity->getErrors(), true));
+            return $this->json([
+                'success' => false,
+                'message' => __d('tmdb', 'Something went wrong while saving the {0}', $media_type)
+            ]);
+        }
+
         return $this->json([
             'success' => true,
-            'message' => 'Data received'
+            'message' => __d('tmdb', 'The {0} has been saved to the library', $media_type)
         ]);
+    }
+
+    /**
+     * Get remote data from TMDb API based on the media type and TMDb id
+     *
+     * @param \Tmdb\Client $client
+     * @param string $media_type
+     * @param mixed $tmdb_id
+     * @return mixed|null
+     */
+    private function getRemoteData($client, $media_type, $tmdb_id)
+    {
+        switch ($media_type) {
+            case 'movie':
+                $remote_data = $client->getMoviesApi()->getMovie($tmdb_id);
+                break;
+            case 'tv':
+                $remote_data = $client->getTvApi()->getTvshow($tmdb_id);
+                break;
+            case 'person':
+                $remote_data = $client->getPeopleApi()->getPerson($tmdb_id);
+                break;
+            default:
+                $remote_data = null;
+                break;
+        }
+
+        return $remote_data;
     }
 }

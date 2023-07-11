@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\I18n\FrozenDate;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -104,5 +105,69 @@ class MoviesTable extends Table
         $rules->add($rules->existsIn('status_id', 'MovieStatuses'), ['errorField' => 'status_id']);
 
         return $rules;
+    }
+
+    /**
+     * Get a movie by id with associations if needed
+     *
+     * @param int $id Movie id
+     * @param array|null $contain Associations to include
+     * 
+     * @return \App\Model\Entity\Movie|null
+     */
+    public function getById(int $id, array $contain = null)
+    {
+        $query = $this->find()
+            ->where(['Movies.id' => $id]);
+
+        if ($contain) {
+            $query->contain($contain);
+        }
+
+        return $query->first();
+    }
+
+    /**
+     * Get a movie by tmdb id with associations if needed
+     *     
+     * Is posible to find a movie by id and not by tmdb id because
+     * the id is the primary key and the tmdb id is set when the movie
+     * is added to the database from the tmdb api client.
+     *
+     * @param integer $tmdbId Tmdb id
+     * @param array|null $contain Associations to include
+     * 
+     * @return \App\Model\Entity\Movie|null
+     */
+    public function getByTmdbId(int $tmdbId, array $contain = null)
+    {
+        $query = $this->find()
+            ->where(['Movies.tmdb_id' => $tmdbId]);
+
+        if ($contain) {
+            $query->contain($contain);
+        }
+
+        return $query->first();
+    }
+
+    /**
+     * Parse remote data to local entity data
+     *
+     * @param array $remote_data Remote data array
+     * @return \App\Model\Entity\Movie
+     */
+    public function parseDataToEntity(array $remote_data)
+    {
+        $movie = $this->newEmptyEntity();
+
+        $movie->tmdb_id      = $remote_data['id'];
+        $movie->title        = $remote_data['title'];
+        $movie->release_date = FrozenDate::parse($remote_data['release_date']);
+
+        $movie_status     = $this->MovieStatuses->getDynamicStatus($remote_data['release_date']);
+        $movie->status_id = $movie_status->id;
+
+        return $movie;
     }
 }

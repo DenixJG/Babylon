@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\I18n\FrozenDate;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -57,5 +58,57 @@ class MovieStatusesTable extends Table
             ->notEmptyString('name');
 
         return $validator;
+    }
+
+    /**
+     * Get the MovieStatus based on the status name
+     * 
+     * @param string $status_name The status name, e.g. 'Released'
+     * 
+     * @return \App\Model\Entity\MovieStatus|null
+     */
+    public function getByStatusName(string $status_name)
+    {
+        $status = $this->find()
+            ->where(['name' => $status_name])
+            ->first();
+
+        return $status;
+    }
+
+    /**
+     * Get the MovieStatus based on release date
+     * 
+     * - If the release date is empty, return the default is 'Unknown'
+     * - If the release date is in the future, return the default is 'Coming Soon'
+     * - If the release date is in the past, return the default is 'Released'
+     * - If the release date is today, return the default is 'Released'
+     * 
+     * @param string $release_date
+     * 
+     * @return \App\Model\Entity\MovieStatus
+     */
+    public function getDynamicStatus(string $release_date)
+    {
+        // Check if the release date is empty and return the default status
+        if (empty($release_date)) {
+            return $this->getByStatusName('Unknown');
+        }
+
+        // Convert the release date to a FrozenDate object
+        $release_date = new FrozenDate($release_date);
+
+        // Check if the release date is in the future and return the default status
+        if ($release_date->isFuture()) {
+            return $this->getByStatusName('Coming Soon');
+        }
+
+        // Check if the release date is in the past and return the default status
+        if ($release_date->isPast()) {
+            return $this->getByStatusName('Released');
+        }
+
+        // If we get here, the release date is today, so return the default status
+        return $this->getByStatusName('Released');
     }
 }

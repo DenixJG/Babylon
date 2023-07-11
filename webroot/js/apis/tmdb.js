@@ -116,6 +116,8 @@ function initAddToLibraryBtnEvents() {
                 title: "Add to library",
                 text: "Are you sure you want to add this movie to your library?",
                 icon: "info",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
             },
             addMovieToLibrary,
             {

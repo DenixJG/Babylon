@@ -19,6 +19,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Datasource\FactoryLocator;
 use Cake\Event\EventInterface;
 use Cake\View\View;
 
@@ -134,8 +135,46 @@ class AppController extends Controller
         $this->disableAutoRender();
 
         $this->response = $this->response->withStatus($status);
-                    
+
         $this->set('json_data', $data);
         return $this->render('json');
+    }
+
+    /**
+     * Return the table instance based on the media type requested
+     * 
+     * For example, if the request is for movies, the table instance returned
+     * will be the MoviesTable.
+     * 
+     * Valid media types are: movies and tv (shows)
+     *
+     * @param string $media_type
+     * @return \Cake\ORM\Table|null
+     */
+    protected function getTableByMedia(string $media_type)
+    {
+        $table = null;
+
+        if (empty($media_type)) {
+            return $table;
+        }
+
+        switch ($media_type) {
+            case 'movies':
+            case 'movie':
+                /** @var \App\Model\Table\MoviesTable */
+                $table = FactoryLocator::get('Table')->get('Movies');
+                break;
+            case 'show':
+            case 'shows':
+            case 'tv':
+                /** @var \App\Model\Table\ShowsTable */
+                $table = FactoryLocator::get('Table')->get('Shows');
+                break;
+            default:
+                break;
+        }
+
+        return $table;
     }
 }
