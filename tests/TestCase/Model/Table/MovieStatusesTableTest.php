@@ -61,4 +61,26 @@ class MovieStatusesTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test getByStatusName method
+     *
+     * @return void
+     * @uses \App\Model\Table\MovieStatusesTable::getByStatusName()
+     */
+    public function testGetByStatusName(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test getDynamicStatus method
+     *
+     * @return void
+     * @uses \App\Model\Table\MovieStatusesTable::getDynamicStatus()
+     */
+    public function testGetDynamicStatus(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

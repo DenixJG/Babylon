@@ -68,23 +68,23 @@ class UsersTableTest extends TestCase
     }
 
     /**
-     * Test beforeSave method
-     *
-     * @return void
-     * @uses \App\Model\Table\UsersTable::beforeSave()
-     */
-    public function testBeforeSave(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
      * Test buildRules method
      *
      * @return void
      * @uses \App\Model\Table\UsersTable::buildRules()
      */
     public function testBuildRules(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test beforeSave method
+     *
+     * @return void
+     * @uses \App\Model\Table\UsersTable::beforeSave()
+     */
+    public function testBeforeSave(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

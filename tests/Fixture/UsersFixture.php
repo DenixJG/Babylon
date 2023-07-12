@@ -26,8 +26,8 @@ class UsersFixture extends TestFixture
                 'role_id' => 1,
                 'active' => 1,
                 'hash' => 'Lorem ipsum dolor sit amet',
-                'created' => '2023-07-08 14:27:09',
-                'modified' => '2023-07-08 14:27:09',
+                'created' => '2023-07-12 11:50:35',
+                'modified' => '2023-07-12 11:50:35',
             ],
         ];
         parent::init();

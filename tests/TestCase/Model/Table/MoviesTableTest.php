@@ -27,6 +27,7 @@ class MoviesTableTest extends TestCase
         'app.Movies',
         'app.MovieStatuses',
         'app.MovieDirectors',
+        'app.MovieGenres',
     ];
 
     /**
@@ -71,6 +72,39 @@ class MoviesTableTest extends TestCase
      * @uses \App\Model\Table\MoviesTable::buildRules()
      */
     public function testBuildRules(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test getById method
+     *
+     * @return void
+     * @uses \App\Model\Table\MoviesTable::getById()
+     */
+    public function testGetById(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test getByTmdbId method
+     *
+     * @return void
+     * @uses \App\Model\Table\MoviesTable::getByTmdbId()
+     */
+    public function testGetByTmdbId(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test parseDataToEntity method
+     *
+     * @return void
+     * @uses \App\Model\Table\MoviesTable::parseDataToEntity()
+     */
+    public function testParseDataToEntity(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
