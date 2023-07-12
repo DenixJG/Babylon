@@ -17,8 +17,8 @@ class MoviesController extends AppController
     {
         parent::initialize();
 
-        $this->menu = 'movies';
-        $this->submenu = 'movies';
+        $this->menu          = 'movies';
+        $this->submenu       = 'movies';
         $this->section_title = 'Movies';
     }
 
@@ -29,10 +29,12 @@ class MoviesController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $paginate_settings = [
             'contain' => ['MovieStatuses'],
+            'conditions' => ['Movies.is_deleted' => false],
         ];
-        $movies = $this->paginate($this->Movies);
+
+        $movies = $this->paginate($this->Movies, $paginate_settings);
 
         $this->set(compact('movies'));
     }
@@ -100,22 +102,68 @@ class MoviesController extends AppController
     }
 
     /**
-     * Delete method
-     *
-     * @param string|null $id Movie id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * Delete a movie from database
+     * 
+     * This method really not delete a movie from database, it just change the is_deleted field to true
+     *          
+     * @return \Cake\Http\Response|null|void Redirects to index.     
      */
-    public function delete($id = null)
+    public function delete()
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $movie = $this->Movies->get($id);
-        if ($this->Movies->delete($movie)) {
-            $this->Flash->success(__('The movie has been deleted.'));
-        } else {
-            $this->Flash->error(__('The movie could not be deleted. Please, try again.'));
-        }
+        try {
+            // Allow only DELETE method
+            if (!$this->request->is(['DELETE', 'AJAX'])) {
+                return $this->json([
+                    'success' => false,
+                    'message' => __d('Movies', 'Method not allowed, only DELETE method is allowed'),
+                ]);
+            }
 
-        return $this->redirect(['action' => 'index']);
+            // Get data from request
+            $action = $this->request->getData('action');
+            $data   = $this->request->getData();
+            \Cake\Log\Log::error(print_r($data, true));
+
+            $movie_id = $data['data']['movieId'] ?? null;
+            if (empty($movie_id)) {
+                return $this->json([
+                    'success' => false,
+                    'message' => __d('Movies', 'Movie ID is required'),
+                ]);
+            }
+
+            // Get movie from database
+            $movie = $this->Movies->getById((int) $movie_id);
+            if (empty($movie)) {
+                return $this->json([
+                    'success' => false,
+                    'message' => __d('Movies', 'Movie not found'),
+                ]);
+            }
+
+            // Mark movie as deleted and save it
+            $movie->is_deleted = true;
+            if (!$this->Movies->save($movie)) {
+                return $this->json([
+                    'success' => false,
+                    'message' => __d('Movies', 'Movie could not be deleted'),                    
+                ]);
+            }
+
+            // Return success message
+            return $this->json([
+                'success' => true,
+                'message' => __d('Movies', 'Movie deleted successfully'),
+                'redirect' => '/movies',
+            ]);
+
+        } catch (\Exception $e) {
+            \Cake\Log\Log::error(print_r($e->getMessage(), true));
+            \Cake\Log\Log::error(print_r($e->getTraceAsString(), true));
+            return $this->json([
+                'success' => false,
+                'message' => __d('Movies', 'Movie could not be deleted, please try again later'),
+            ]);
+        }
     }
 }

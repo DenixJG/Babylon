@@ -27,11 +27,13 @@ class CallbackResponse {
      *
      * @param {boolean} success Whether the callback function was successful or not
      * @param {string} message The message to display to the user
+     * @param {string|undefined} redirect The URL to redirect the user to
      * @param {object} data The data to pass to the callback function
      */
-    constructor(success, message, data = {}) {
+    constructor(success, message, redirect = undefined, data = {}) {
         this.success = success;
         this.message = message;
+        this.redirect = redirect;
         this.data = data;
     }
 
@@ -51,6 +53,15 @@ class CallbackResponse {
      */
     setMessage(message) {
         this.message = message;
+    }
+
+    /**
+     * Set the URL to redirect the user to
+     *
+     * @param {string} redirect The URL to redirect the user to
+     */
+    setRedirect(redirect) {
+        this.redirect = redirect;
     }
 
     /**
@@ -78,6 +89,15 @@ class CallbackResponse {
      */
     getMessage() {
         return this.message;
+    }
+
+    /**
+     * Get the URL to redirect the user to
+     *
+     * @returns {string} The URL to redirect the user to
+     */
+    getRedirect() {
+        return this.redirect;
     }
 
     /**

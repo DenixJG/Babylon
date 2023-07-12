@@ -26,9 +26,18 @@
                     <td><?= $movie->release_date->toDateString() ?? '' ?></td>
                     <td class="text-end">
                         <?= $this->Html->link(
-                            '<i class="fa fa-edit text-primary fs-3"></i>',
+                            '<i class="fa fa-edit text-primary fs-4"></i>',
                             ['controller' => 'Movies', 'action' => 'edit', $movie->id],
-                            ['class' => 'menu-link px-3', 'escape' => false]
+                            ['class' => 'menu-link px-2', 'escape' => false]
+                        ); ?>
+                        <?= $this->Html->link(
+                            '<i class="fa fa-trash text-danger fs-4"></i>',
+                            'javascript:void(0)',
+                            [
+                                'class' => 'btn-delete-movie menu-link px-2', 
+                                'data-movie-id' => $movie->id,
+                                'escape' => false
+                            ]
                         ); ?>
                     </td>
                 </tr>

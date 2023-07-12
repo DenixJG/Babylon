@@ -181,7 +181,7 @@ class Utils {
 
                     // Check if callback returns object of CallbackResponse
                     if (callbackReturn instanceof CallbackResponse) {
-                        let { success, message } = callbackReturn;
+                        let { success, message, redirect } = callbackReturn;
 
                         if (success && showSweetAlert) {
                             Swal.fire(
@@ -190,8 +190,16 @@ class Utils {
                                     "Your action has been executed successfully.",
                                 "success"
                             );
+
+                            if (redirect !== undefined) {
+                                window.location.href = redirect;
+                            }
                         } else if (success && !showSweetAlert) {
                             Utils.showToast("success", message);
+
+                            if (redirect !== undefined) {
+                                window.location.href = redirect;
+                            }
                         } else if (!success && showSweetAlert) {
                             Swal.fire(
                                 "Error!",
