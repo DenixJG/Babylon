@@ -28,6 +28,7 @@ class MoviesTableTest extends TestCase
         'app.MovieStatuses',
         'app.MovieDirectors',
         'app.MovieGenres',
+        'app.UserMovies',
     ];
 
     /**
