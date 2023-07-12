@@ -18,6 +18,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\MovieStatus $movie_status
  * @property \App\Model\Entity\MovieDirector[] $movie_directors
+ * @property \App\Model\Entity\MovieGenre[] $movie_genres
  */
 class Movie extends Entity
 {
@@ -39,5 +40,6 @@ class Movie extends Entity
         'modified' => true,
         'movie_status' => true,
         'movie_directors' => true,
+        'movie_genres' => true,
     ];
 }

@@ -74,6 +74,9 @@ class UsersTable extends Table
         $this->hasMany('Notes', [
             'foreignKey' => 'user_id',
         ]);
+        $this->hasMany('UserMovies', [
+            'foreignKey' => 'user_id',
+        ]);
     }
 
     /**

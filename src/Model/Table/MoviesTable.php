@@ -14,6 +14,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\MovieStatusesTable&\Cake\ORM\Association\BelongsTo $MovieStatuses
  * @property \App\Model\Table\MovieDirectorsTable&\Cake\ORM\Association\HasMany $MovieDirectors
+ * @property \App\Model\Table\MovieGenresTable&\Cake\ORM\Association\HasMany $MovieGenres
  *
  * @method \App\Model\Entity\Movie newEmptyEntity()
  * @method \App\Model\Entity\Movie newEntity(array $data, array $options = [])
@@ -53,12 +54,13 @@ class MoviesTable extends Table
             'foreignKey' => 'status_id',
             'joinType' => 'INNER',
         ]);
-
         $this->hasMany('MovieDirectors', [
             'foreignKey' => 'movie_id',
         ]);
-
         $this->hasMany('MovieGenres', [
+            'foreignKey' => 'movie_id',
+        ]);
+        $this->hasMany('UserMovies', [
             'foreignKey' => 'movie_id',
         ]);
     }
