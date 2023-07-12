@@ -13,12 +13,14 @@ use Cake\ORM\Entity;
  * @property int $status_id
  * @property string $title
  * @property \Cake\I18n\FrozenDate $release_date
+ * @property bool|null $is_deleted
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
  * @property \App\Model\Entity\MovieStatus $movie_status
  * @property \App\Model\Entity\MovieDirector[] $movie_directors
  * @property \App\Model\Entity\MovieGenre[] $movie_genres
+ * @property \App\Model\Entity\UserMovie[] $user_movies
  */
 class Movie extends Entity
 {
@@ -36,10 +38,12 @@ class Movie extends Entity
         'status_id' => true,
         'title' => true,
         'release_date' => true,
+        'is_deleted' => true,
         'created' => true,
         'modified' => true,
         'movie_status' => true,
         'movie_directors' => true,
         'movie_genres' => true,
+        'user_movies' => true,
     ];
 }

@@ -15,6 +15,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\MovieStatusesTable&\Cake\ORM\Association\BelongsTo $MovieStatuses
  * @property \App\Model\Table\MovieDirectorsTable&\Cake\ORM\Association\HasMany $MovieDirectors
  * @property \App\Model\Table\MovieGenresTable&\Cake\ORM\Association\HasMany $MovieGenres
+ * @property \App\Model\Table\UserMoviesTable&\Cake\ORM\Association\HasMany $UserMovies
  *
  * @method \App\Model\Entity\Movie newEmptyEntity()
  * @method \App\Model\Entity\Movie newEntity(array $data, array $options = [])
@@ -91,6 +92,10 @@ class MoviesTable extends Table
             ->date('release_date')
             ->requirePresence('release_date', 'create')
             ->notEmptyDate('release_date');
+
+        $validator
+            ->boolean('is_deleted')
+            ->allowEmptyString('is_deleted');
 
         return $validator;
     }
