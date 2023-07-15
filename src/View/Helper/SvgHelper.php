@@ -67,18 +67,18 @@ class SvgHelper extends Helper
 
         // remove unwanted tags
         $title = $dom->getElementsByTagName("title");
-        if ($title["length"]) {
-            $dom->documentElement->removeChild($title[0]);
+        if ($title->length > 0) {
+            $dom->documentElement->removeChild($title->item(0));
         }
 
         $desc = $dom->getElementsByTagName("desc");
-        if ($desc["length"]) {
-            $dom->documentElement->removeChild($desc[0]);
+        if ($desc->length > 0) {
+            $dom->documentElement->removeChild($desc->item(0));
         }
 
         $defs = $dom->getElementsByTagName("defs");
-        if ($defs["length"]) {
-            $dom->documentElement->removeChild($defs[0]);
+        if ($defs->length > 0) {
+            $dom->documentElement->removeChild($defs->item(0));
         }
 
         // remove unwanted id attribute in g tag
