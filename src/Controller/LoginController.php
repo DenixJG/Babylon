@@ -15,7 +15,7 @@ class LoginController extends AppController
         parent::initialize();
         $this->loadModel('Users');
 
-        $this->Authentication->allowUnauthenticated(['index']);
+        $this->Authentication->allowUnauthenticated(['index', 'forgotPassword']);
     }
 
     /**
@@ -27,7 +27,7 @@ class LoginController extends AppController
     {
         $this->viewBuilder()->setLayout('login');
 
-        $result = $this->Authentication->getResult();        
+        $result = $this->Authentication->getResult();
         if ($result->isValid()) {
             $target = $this->Authentication->getLoginRedirect() ?? '/home';
             return $this->redirect($target);
@@ -48,7 +48,7 @@ class LoginController extends AppController
         if ($this->request->is('post') && !$result->isValid()) {
             $this->Flash->error(__d('login', 'Something went wrong. Please try again'));
             return $this->render('login_form');
-        }                
+        }
 
         return $this->render('login_form');
     }
@@ -57,5 +57,19 @@ class LoginController extends AppController
     {
         $this->Authentication->logout();
         return $this->redirect(['controller' => 'Login', 'action' => 'index']);
+    }
+
+    /**
+     * Prints the forgot password form and handles the form submission
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function forgotPassword()
+    {
+        // Set the layout to login so that the forgot password form is displayed
+        // without the header and footer
+        $this->viewBuilder()->setLayout('login');
+
+        return $this->render('forgot_password_form');
     }
 }
