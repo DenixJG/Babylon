@@ -140,11 +140,23 @@ class TmdbController extends AppController
         $client      = TmdbClient::getInstance()->getClient();
         $remote_data = $this->getRemoteData($client, $media_type, $tmdb_id);
 
+        // Check if method parseDataToEntity exists in the table
+        if (!method_exists($Table, 'parseDataToEntity')) {
+            \Cake\Log\Log::error(print_r('The table ' . $Table->getAlias() . ' does not have the parseDataToEntity method', true));
+            return $this->json([
+                'success' => false,
+                'message' => 'Something went wrong, contact the administrator for more information'
+            ]);
+        }
+
         // Parse the data to the correct entity and save it to the database
         $entity = $Table->parseDataToEntity($remote_data);
+        $save_options = $this->getSaveOptionsByMedia($media_type);
+
+        \Cake\Log\Log::error(print_r($entity, true));
 
         // Save the entity to the database
-        if (!$Table->save($entity)) {
+        if (!$Table->save($entity, $save_options)) {
             \Cake\Log\Log::error(print_r($entity->getErrors(), true));
             return $this->json([
                 'success' => false,
@@ -184,5 +196,39 @@ class TmdbController extends AppController
         }
 
         return $remote_data;
+    }
+
+    /**
+     * Get the save options based on the media type
+     * 
+     * The save options are used to save the entity to the database 
+     * with the correct associations and data validation rules
+     *
+     * @param string $media_type The media type
+     * @return array
+     */
+    private function getSaveOptionsByMedia(string $media_type)
+    {
+        switch ($media_type) {
+            case 'movie':
+            case 'movies':
+                $save_options = array();
+                break;
+            case 'tv':
+            case 'show':
+            case 'shows':
+                $save_options['associated'] = [
+                    'Seasons'
+                ];
+                break;
+            case 'person':
+                $save_options = array();
+                break;
+            default:
+                $save_options = array();
+                break;
+        }
+
+        return $save_options;
     }
 }
