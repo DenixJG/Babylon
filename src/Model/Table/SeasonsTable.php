@@ -62,13 +62,31 @@ class SeasonsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->integer('show_id')
+            ->notEmptyString('show_id');
+
+        $validator
+            ->integer('tmdb_id')
+            ->allowEmptyString('tmdb_id');
+
+        $validator
             ->integer('number')
             ->requirePresence('number', 'create')
             ->notEmptyString('number');
 
         $validator
-            ->integer('show_id')
-            ->notEmptyString('show_id');
+            ->scalar('name')
+            ->maxLength('name', 255)
+            ->requirePresence('name', 'create')
+            ->notEmptyString('name');
+
+        $validator
+            ->integer('episode_count')
+            ->allowEmptyString('episode_count');
+
+        $validator
+            ->scalar('overview')
+            ->allowEmptyString('overview');
 
         return $validator;
     }
@@ -85,5 +103,54 @@ class SeasonsTable extends Table
         $rules->add($rules->existsIn('show_id', 'Shows'), ['errorField' => 'show_id']);
 
         return $rules;
+    }
+
+    /**
+     * Get a season by tmdb id with associations if needed
+     *     
+     * Is posible to find a season by id and not by tmdb id because
+     * the id is the primary key and the tmdb id is set when the season
+     * is added to the database from the tmdb api client.
+     *
+     * @param integer $tmdbId Tmdb id
+     * @param array|null $contain Associations to include
+     * 
+     * @return \App\Model\Entity\Season|null
+     */
+    public function getByTmdbId(int $tmdbId, array $contain = null)
+    {
+        $query = $this->find()
+            ->where(['Seasons.tmdb_id' => $tmdbId]);
+
+        if ($contain) {
+            $query->contain($contain);
+        }
+
+        return $query->first();
+    }
+
+    /**
+     * Parse data to entity object
+     *
+     * @param array $data Data to parse
+     * 
+     * @return \App\Model\Entity\Season|null
+     */
+    public function parseDataToEntity($data)
+    {
+        $season = $this->newEmptyEntity();
+
+        try {
+            $season->tmdb_id       = $data['id'] ?? null;
+            $season->number        = $data['season_number'] ?? null;
+            $season->name          = $data['name'] ?? null;
+            $season->episode_count = $data['episode_count'] ?? null;
+            $season->overview      = $data['overview'] ?? null;
+        } catch (\Exception $e) {
+            \Cake\Log\Log::error(print_r($e->getMessage(), true));
+            return null;
+        }
+
+        return $season;
     }
 }

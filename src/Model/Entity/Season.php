@@ -9,8 +9,12 @@ use Cake\ORM\Entity;
  * Season Entity
  *
  * @property int $id
- * @property int $number
  * @property int $show_id
+ * @property int|null $tmdb_id
+ * @property int $number
+ * @property string $name
+ * @property int|null $episode_count
+ * @property string|null $overview
  *
  * @property \App\Model\Entity\Show $show
  * @property \App\Model\Entity\Episode[] $episodes
@@ -27,8 +31,12 @@ class Season extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'number' => true,
         'show_id' => true,
+        'tmdb_id' => true,
+        'number' => true,
+        'name' => true,
+        'episode_count' => true,
+        'overview' => true,
         'show' => true,
         'episodes' => true,
     ];

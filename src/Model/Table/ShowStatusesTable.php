@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\I18n\FrozenDate;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -58,4 +59,56 @@ class ShowStatusesTable extends Table
 
         return $validator;
     }
+
+    /**
+     * Get the ShowStatus based on the status name
+     * 
+     * @param string $status_name The status name, e.g. 'Released'
+     * 
+     * @return \App\Model\Entity\ShowStatus|null
+     */
+    public function getByStatusName(string $status_name)
+    {
+        $status = $this->find()
+            ->where(['name' => $status_name])
+            ->first();
+
+        return $status;
+    }
+
+    /**
+     * Get the MovieStatus based on release date
+     * 
+     * @param string $release_date The release date, e.g. '2020-12-25'
+     * 
+     * @return \App\Model\Entity\ShowStatus|null
+     */
+    public function getDynamicStatus(string $release_date)
+    {
+        // TODO: For shows status, we need to check if the show is still running or not
+        // for this we need to check the last episode air date and compare it to today's date
+        // or we can use the status from the API if it's available
+
+        // Check if the release date is empty and return the default status
+        if (empty($release_date)) {
+            return $this->getByStatusName('Unknown');
+        }
+
+        // Convert the release date to a FrozenDate object
+        $release_date = new FrozenDate($release_date);
+
+        // Check if the release date is in the future and return the default status
+        if ($release_date->isFuture()) {
+            return $this->getByStatusName('Coming Soon');
+        }
+
+        // Check if the release date is in the past and return the default status
+        if ($release_date->isPast()) {
+            return $this->getByStatusName('Finished');
+        }
+
+        // If we get here, the release date is today, so return the default status
+        return $this->getByStatusName('On Air');
+    }
+
 }

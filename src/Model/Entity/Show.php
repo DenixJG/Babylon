@@ -9,8 +9,13 @@ use Cake\ORM\Entity;
  * Show Entity
  *
  * @property int $id
- * @property string $title
  * @property int $status_id
+ * @property string $title
+ * @property string|null $original_name
+ * @property int|null $tmdb_id
+ * @property \Cake\I18n\FrozenDate|null $first_air_date
+ * @property \Cake\I18n\FrozenDate|null $last_air_date
+ * @property string|null $overview
  *
  * @property \App\Model\Entity\ShowStatus $show_status
  * @property \App\Model\Entity\Season[] $seasons
@@ -29,8 +34,13 @@ class Show extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'title' => true,
         'status_id' => true,
+        'title' => true,
+        'original_name' => true,
+        'tmdb_id' => true,
+        'first_air_date' => true,
+        'last_air_date' => true,
+        'overview' => true,
         'show_status' => true,
         'seasons' => true,
         'show_directors' => true,

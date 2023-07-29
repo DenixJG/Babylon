@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\I18n\FrozenDate;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -56,7 +57,6 @@ class ShowsTable extends Table
         $this->hasMany('ShowDirectors', [
             'foreignKey' => 'show_id',
         ]);
-
         $this->hasMany('ShowGenres', [
             'foreignKey' => 'show_id',
         ]);
@@ -71,14 +71,35 @@ class ShowsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->integer('status_id')
+            ->notEmptyString('status_id');
+
+        $validator
             ->scalar('title')
             ->maxLength('title', 255)
             ->requirePresence('title', 'create')
             ->notEmptyString('title');
 
         $validator
-            ->integer('status_id')
-            ->notEmptyString('status_id');
+            ->scalar('original_name')
+            ->maxLength('original_name', 255)
+            ->allowEmptyString('original_name');
+
+        $validator
+            ->integer('tmdb_id')
+            ->allowEmptyString('tmdb_id');
+
+        $validator
+            ->date('first_air_date')
+            ->allowEmptyDate('first_air_date');
+
+        $validator
+            ->date('last_air_date')
+            ->allowEmptyDate('last_air_date');
+
+        $validator
+            ->scalar('overview')
+            ->allowEmptyString('overview');
 
         return $validator;
     }
@@ -95,5 +116,80 @@ class ShowsTable extends Table
         $rules->add($rules->existsIn('status_id', 'ShowStatuses'), ['errorField' => 'status_id']);
 
         return $rules;
+    }
+
+    /**
+     * Get a show by tmdb id with associations if needed
+     *     
+     * Is posible to find a show by id and not by tmdb id because
+     * the id is the primary key and the tmdb id is set when the show
+     * is added to the database from the tmdb api client.
+     *
+     * @param integer $tmdbId Tmdb id
+     * @param array|null $contain Associations to include
+     * 
+     * @return \App\Model\Entity\Show|null
+     */
+    public function getByTmdbId(int $tmdbId, array $contain = null)
+    {
+        $query = $this->find()
+            ->where(['Shows.tmdb_id' => $tmdbId]);
+
+        if ($contain) {
+            $query->contain($contain);
+        }
+
+        return $query->first();
+    }
+
+    /**
+     * Parse remote data to entity object
+     * 
+     * This method will parse the data from the remote API to an entity object also
+     * saving the related data (seasons) if needed.
+     * 
+     * @param array $data Data to parse
+     * @param bool $parseSeason If true, parse seasons too
+     * 
+     * @return \App\Model\Entity\Show|null
+     */
+    public function parseDataToEntity(array $data, $parseSeason = true)
+    {
+        \Cake\Log\Log::error(print_r('================== DATA TO PARSE ==================', true));
+        \Cake\Log\Log::error(print_r($data, true));
+
+        $show = $this->newEmptyEntity();
+
+        if (empty($data['name']) && empty($data['original_name'])) {
+            return null;
+        }
+
+        $show->title         = $data['name'] ?? $data['original_name'] ?? null;
+        $show->original_name = $data['original_name'] ?? null;
+        $show->tmdb_id       = $data['id'] ?? null;
+        $show_status         = $this->ShowStatuses->getDynamicStatus($data['first_air_date'] ?? null);
+        $show->status_id     = !empty($show_status) ? $show_status->id : null;
+
+        try {
+            $show->first_air_date = isset($data['first_air_date']) ? FrozenDate::createFromFormat('Y-m-d', $data['first_air_date']) : null;
+            $show->last_air_date  = isset($data['last_air_date']) ? FrozenDate::createFromFormat('Y-m-d', $data['last_air_date']) : null;
+        } catch (\Exception $e) {
+            \Cake\Log\Log::error(print_r($e->getMessage(), true));
+        }
+
+        $show->overview = $data['overview'] ?? null;
+
+        // Check if $data seasons exists
+        if (isset($data['seasons']) && is_array($data['seasons']) && $parseSeason) {
+            $seasons = [];
+            foreach ($data['seasons'] as $season) {
+                $seasons[] = $this->Seasons->parseDataToEntity($season);
+            }
+
+            // Set seasons
+            $show->seasons = $seasons;
+        }
+
+        return $show;
     }
 }
