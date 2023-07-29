@@ -74,4 +74,15 @@ class SeasonsTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test parseDataToEntity method
+     *
+     * @return void
+     * @uses \App\Model\Table\SeasonsTable::parseDataToEntity()
+     */
+    public function testParseDataToEntity(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }
