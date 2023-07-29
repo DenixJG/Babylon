@@ -9,19 +9,35 @@
 <div class="table-responsive">
     <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable">
         <thead>
-            <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                <?= $this->Paginator->sort('Shows.id', __d('shows', 'ID'), ['escape' => false]); ?>
+            <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">                
                 <?= $this->Paginator->sort('Shows.title', __d('shows', 'Title'), ['escape' => false]); ?>
+                <?= $this->Paginator->sort('Shows.original_name', __d('shows', 'Original Title'), ['escape' => false]); ?>
                 <?= $this->Paginator->sort('ShowStatuses.name', __d('shows', 'Status'), ['escape' => false]); ?>                
+                <?= $this->Paginator->sort('Shows.first_air_date', __d('shows', 'First Air Date'), ['escape' => false]); ?>
+                <?= $this->Paginator->sort('Shows.last_air_date', __d('shows', 'Last Air Date'), ['escape' => false]); ?>
                 <th class="text-end min-w-70px"><?= __d('shows', 'Actions') ?></th>
             </tr>
         </thead>
         <tbody class="fw-bold text-gray-600">
             <?php foreach ($shows as $show) : ?>
-                <tr>
-                    <td><?= $show->id ?></td>
+                <tr>                    
                     <td><?= $show->title ?? '' ?></td>
+                    <td><?= $show->original_name ?? '' ?></td>
                     <td><?= $show->show_status->name ?? '' ?></td>                    
+                    <td>
+                        <?= $this->Time->i18nFormat(
+                            $show->first_air_date,
+                            'dd/MM/yyyy',
+                            ''
+                        ); ?>
+                    </td>
+                    <td>
+                        <?= $this->Time->i18nFormat(
+                            $show->last_air_date,
+                            'dd/MM/yyyy',
+                            ''
+                        ); ?>
+                    </td>
                     <td class="text-end">
                         <?= $this->Html->link(
                             '<i class="fa fa-edit text-primary fs-3"></i>',
