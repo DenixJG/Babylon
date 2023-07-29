@@ -134,10 +134,9 @@ class AppController extends Controller
     {
         $this->disableAutoRender();
 
-        $this->response = $this->response->withStatus($status);
-
-        $this->set('json_data', $data);
-        return $this->render('json');
+        return $this->response->withType('application/json')
+            ->withStringBody(json_encode($data))
+            ->withStatus($status);
     }
 
     /**
