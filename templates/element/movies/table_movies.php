@@ -9,8 +9,7 @@
 <div class="table-responsive">
     <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable">
         <thead>
-            <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                <?= $this->Paginator->sort('Movies.id', __d('movies', 'ID'), ['escape' => false]); ?>
+            <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">                
                 <?= $this->Paginator->sort('Movies.title', __d('movies', 'Title'), ['escape' => false]); ?>
                 <?= $this->Paginator->sort('MovieStatuses.name', __d('movies', 'Status'), ['escape' => false]); ?>
                 <?= $this->Paginator->sort('Movies.release_date', __d('movies', 'Release'), ['escape' => false]); ?>
@@ -19,8 +18,7 @@
         </thead>
         <tbody class="fw-bold text-gray-600">
             <?php foreach ($movies as $movie) : ?>
-                <tr>
-                    <td><?= $movie->id ?></td>
+                <tr>                    
                     <td><?= $movie->title ?? '' ?></td>
                     <td><?= $movie->movie_status->name ?? '' ?></td>
                     <td><?= $movie->release_date->toDateString() ?? '' ?></td>
