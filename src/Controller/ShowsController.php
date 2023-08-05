@@ -89,7 +89,7 @@ class ShowsController extends AppController
     public function edit($id = null)
     {
         $show = $this->Shows->get($id, [
-            'contain' => [],
+            'contain' => ['Seasons'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $show = $this->Shows->patchEntity($show, $this->request->getData());

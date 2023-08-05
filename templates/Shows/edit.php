@@ -24,7 +24,7 @@
                     'class' => 'text-dark-light form-control',
                     'label' => [
                         'class' => 'text-gray-600 form-label',
-                        'text' => __d('shows', 'Title')
+                        'text'  => __d('shows', 'Title')
                     ]
                 ]); ?>
             </div>
@@ -33,30 +33,30 @@
                     'class' => 'text-dark-light form-control',
                     'label' => [
                         'class' => 'text-gray-600 form-label',
-                        'text' => __d('shows', 'Original Title')
+                        'text'  => __d('shows', 'Original Title')
                     ]
                 ]); ?>
             </div>
             <div class="col-12 col-xl-2 mb-15 mb-xl-5">
                 <?= $this->Form->control('tmdb_id', [
-                    'type' => 'text',
+                    'type'  => 'text',
                     'class' => 'text-dark-light form-control',
                     'label' => [
                         'class' => 'text-gray-600 form-label',
-                        'text' => __d('shows', 'TMDB ID')
+                        'text'  => __d('shows', 'TMDB ID')
                     ]
                 ]); ?>
             </div>
             <div class="col-6 col-xl-5 mb-15 mb-xl-5">
                 <?= $this->Form->control('status_id', [
-                    'type' => 'select',
+                    'type'    => 'select',
                     'options' => $showStatuses,
-                    'class' => 'text-dark-light form-select',
-                    'label' => [
+                    'class'   => 'text-dark-light form-select',
+                    'label'   => [
                         'class' => 'text-gray-600 form-label',
-                        'text' => __d('shows', 'Status'),
+                        'text'  => __d('shows', 'Status'),
                     ],
-                    'empty' => __d('events', '- Select -'),
+                    'empty'   => __d('events', '- Select -'),
                 ]); ?>
             </div>
             <div class="col-12 col-xl-2 mb-15 mb-xl-5">
@@ -64,7 +64,7 @@
                     'class' => 'text-dark-light form-control',
                     'label' => [
                         'class' => 'text-gray-600 form-label',
-                        'text' => __d('shows', 'First Air Date')
+                        'text'  => __d('shows', 'First Air Date')
                     ]
                 ]); ?>
             </div>
@@ -73,7 +73,7 @@
                     'class' => 'text-dark-light form-control',
                     'label' => [
                         'class' => 'text-gray-600 form-label',
-                        'text' => __d('shows', 'Last Air Date')
+                        'text'  => __d('shows', 'Last Air Date')
                     ]
                 ]); ?>
             </div>
@@ -82,7 +82,7 @@
                     'class' => 'text-dark-light form-control',
                     'label' => [
                         'class' => 'text-gray-600 form-label',
-                        'text' => __d('shows', 'Overview/Description')
+                        'text'  => __d('shows', 'Overview/Description')
                     ]
                 ]); ?>
             </div>
@@ -94,10 +94,10 @@
                     '<i class="fas fa-angle-left mb-1"></i>' . __d('buttons', 'Go back'),
                     [
                         'controller' => 'Shows',
-                        'action' => 'index'
+                        'action'     => 'index'
                     ],
                     [
-                        'class' => 'btn btn-lg btn-secondary me-3 my-2',
+                        'class'  => 'btn btn-lg btn-secondary me-3 my-2',
                         'escape' => false
                     ]
                 ) ?>
@@ -107,11 +107,11 @@
                     __d('buttons', 'Save'),
                     [
                         'controller' => 'Shows',
-                        'action' => 'edit', $show->id
+                        'action'     => 'edit', $show->id
                     ],
                     [
                         'class' => 'btn btn-lg btn-primary me-3 my-2',
-                        'id' => 'btn-save-show'
+                        'id'    => 'btn-save-show'
                     ]
                 )
                     ?>
@@ -122,5 +122,22 @@
             </div>
         </div>
         <?= $this->Form->end(); ?>
+    </div>
+</div>
+
+<!-- Seasons List -->
+<div class="card mb-6 mb-xxl-9">
+    <div class="card-body py-10">
+        <h2 class="">
+            <?= __d('shows', 'Seasons'); ?>
+        </h2>
+        <hr class="separator-dashed">
+        <div class="row mb-10">
+            <div class="col-12">
+                <div class="table-show-seasons-container">
+                    <?= $this->element('seasons/table_show_seasons', ['seasons' => $show->seasons]); ?>
+                </div>              
+            </div>
+        </div>
     </div>
 </div>
