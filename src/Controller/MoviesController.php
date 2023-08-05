@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\I18n\FrozenTime;
+
 /**
  * Movies Controller
  *
@@ -142,11 +144,12 @@ class MoviesController extends AppController
             }
 
             // Mark movie as deleted and save it
-            $movie->is_deleted = true;
+            $movie->is_deleted   = true;
+            $movie->deleted_date = FrozenTime::now();
             if (!$this->Movies->save($movie)) {
                 return $this->json([
                     'success' => false,
-                    'message' => __d('Movies', 'Movie could not be deleted'),                    
+                    'message' => __d('Movies', 'Movie could not be deleted'),
                 ]);
             }
 

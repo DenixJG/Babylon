@@ -16,6 +16,7 @@ use Cake\ORM\Entity;
  * @property bool|null $is_deleted
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
+ * @property \Cake\I18n\FrozenTime|null $deleted_date
  *
  * @property \App\Model\Entity\MovieStatus $movie_status
  * @property \App\Model\Entity\MovieDirector[] $movie_directors
@@ -41,6 +42,7 @@ class Movie extends Entity
         'is_deleted' => true,
         'created' => true,
         'modified' => true,
+        'deleted_date' => true,
         'movie_status' => true,
         'movie_directors' => true,
         'movie_genres' => true,

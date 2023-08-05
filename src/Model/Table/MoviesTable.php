@@ -97,6 +97,10 @@ class MoviesTable extends Table
             ->boolean('is_deleted')
             ->allowEmptyString('is_deleted');
 
+        $validator
+            ->dateTime('deleted_date')
+            ->allowEmptyDateTime('deleted_date');
+
         return $validator;
     }
 
