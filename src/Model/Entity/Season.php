@@ -15,6 +15,9 @@ use Cake\ORM\Entity;
  * @property string $name
  * @property int|null $episode_count
  * @property string|null $overview
+ * @property \Cake\I18n\FrozenDate|null $air_date
+ * @property \Cake\I18n\FrozenTime|null $created
+ * @property \Cake\I18n\FrozenTime|null $modified
  *
  * @property \App\Model\Entity\Show $show
  * @property \App\Model\Entity\Episode[] $episodes
@@ -37,6 +40,9 @@ class Season extends Entity
         'name' => true,
         'episode_count' => true,
         'overview' => true,
+        'air_date' => true,
+        'created' => true,
+        'modified' => true,
         'show' => true,
         'episodes' => true,
     ];

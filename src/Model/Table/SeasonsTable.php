@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\I18n\FrozenDate;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -27,6 +28,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Season[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\Season[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Season[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ *
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class SeasonsTable extends Table
 {
@@ -43,6 +46,8 @@ class SeasonsTable extends Table
         $this->setTable('seasons');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp');
 
         $this->belongsTo('Shows', [
             'foreignKey' => 'show_id',
@@ -88,6 +93,10 @@ class SeasonsTable extends Table
             ->scalar('overview')
             ->allowEmptyString('overview');
 
+        $validator
+            ->date('air_date')
+            ->allowEmptyDate('air_date');
+
         return $validator;
     }
 
@@ -130,22 +139,23 @@ class SeasonsTable extends Table
     }
 
     /**
-     * Parse data to entity object
+     * Parse remote data to entity object
      *
-     * @param array $data Data to parse
+     * @param array $remote_data Data to parse
      * 
      * @return \App\Model\Entity\Season|null
      */
-    public function parseDataToEntity($data)
+    public function parseDataToEntity($remote_data)
     {
         $season = $this->newEmptyEntity();
 
         try {
-            $season->tmdb_id       = $data['id'] ?? null;
-            $season->number        = $data['season_number'] ?? null;
-            $season->name          = $data['name'] ?? null;
-            $season->episode_count = $data['episode_count'] ?? null;
-            $season->overview      = $data['overview'] ?? null;
+            $season->tmdb_id       = $remote_data['id'] ?? null;
+            $season->number        = $remote_data['season_number'] ?? null;
+            $season->name          = $remote_data['name'] ?? null;
+            $season->episode_count = $remote_data['episode_count'] ?? null;
+            $season->overview      = $remote_data['overview'] ?? null;
+            $season->air_date      = isset($remote_data['air_date']) ? FrozenDate::createFromFormat('Y-m-d', $remote_data['air_date']) : null;
         } catch (\Exception $e) {
             \Cake\Log\Log::error(print_r($e->getMessage(), true));
             return null;

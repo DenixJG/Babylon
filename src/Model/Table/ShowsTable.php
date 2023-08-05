@@ -30,6 +30,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Show[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\Show[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Show[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ *
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ShowsTable extends Table
 {
@@ -46,6 +48,8 @@ class ShowsTable extends Table
         $this->setTable('shows');
         $this->setDisplayField('title');
         $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp');
 
         $this->belongsTo('ShowStatuses', [
             'foreignKey' => 'status_id',
@@ -101,6 +105,14 @@ class ShowsTable extends Table
             ->scalar('overview')
             ->allowEmptyString('overview');
 
+        $validator
+            ->boolean('is_deleted')
+            ->allowEmptyString('is_deleted');
+
+        $validator
+            ->dateTime('deleted_date')
+            ->allowEmptyDateTime('deleted_date');
+
         return $validator;
     }
 
@@ -116,6 +128,26 @@ class ShowsTable extends Table
         $rules->add($rules->existsIn('status_id', 'ShowStatuses'), ['errorField' => 'status_id']);
 
         return $rules;
+    }
+
+    /**
+     * Get a show by id with associations if needed
+     *
+     * @param int $id Show id
+     * @param array|null $contain Associations to include
+     * 
+     * @return \App\Model\Entity\Show|null
+     */
+    public function getById(int $id, array $contain = null)
+    {
+        $query = $this->find()
+            ->where(['Shows.id' => $id]);
+
+        if ($contain) {
+            $query->contain($contain);
+        }
+
+        return $query->first();
     }
 
     /**
@@ -166,7 +198,7 @@ class ShowsTable extends Table
 
         $show->title         = $data['name'] ?? $data['original_name'] ?? null;
         $show->original_name = $data['original_name'] ?? null;
-        $show->tmdb_id       = $data['id'] ?? null;
+        $show->tmdb_id       = $data['id'] ?? null;        
         $show_status         = $this->ShowStatuses->getDynamicStatus($data['first_air_date'] ?? null);
         $show->status_id     = !empty($show_status) ? $show_status->id : null;
 

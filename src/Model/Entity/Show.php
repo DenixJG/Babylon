@@ -16,6 +16,10 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenDate|null $first_air_date
  * @property \Cake\I18n\FrozenDate|null $last_air_date
  * @property string|null $overview
+ * @property bool|null $is_deleted
+ * @property \Cake\I18n\FrozenTime|null $deleted_date
+ * @property \Cake\I18n\FrozenTime|null $created
+ * @property \Cake\I18n\FrozenTime|null $modified
  *
  * @property \App\Model\Entity\ShowStatus $show_status
  * @property \App\Model\Entity\Season[] $seasons
@@ -41,6 +45,10 @@ class Show extends Entity
         'first_air_date' => true,
         'last_air_date' => true,
         'overview' => true,
+        'is_deleted' => true,
+        'deleted_date' => true,
+        'created' => true,
+        'modified' => true,
         'show_status' => true,
         'seasons' => true,
         'show_directors' => true,

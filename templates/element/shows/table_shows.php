@@ -44,6 +44,15 @@
                             ['controller' => 'Shows', 'action' => 'edit', $show->id],
                             ['class' => 'menu-link px-3', 'escape' => false]
                         ); ?>
+                        <?= $this->Html->link(
+                            '<i class="fa fa-trash text-danger fs-4"></i>',
+                            'javascript:void(0)',
+                            [
+                                'class' => 'btn-delete-show menu-link px-2', 
+                                'data-show-id' => $show->id,
+                                'escape' => false
+                            ]
+                        ); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
