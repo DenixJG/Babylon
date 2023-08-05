@@ -37,12 +37,15 @@ class SvgHelper extends Helper
             $path = "img/" . $path;
         }
 
+        if (PHP_OS_FAMILY == 'Windows') {
+            $path = str_replace('/', '\\', $path);
+        }        
+
         $full_path = WWW_ROOT . $path;
         if ($this->_View->getTheme()) {
             $full_path = APP_PLUGINS . $this->_View->getTheme() . DS . 'webroot' . DS . $path;
         }
-
-        \Cake\Log\Log::error(print_r($full_path, true));
+        
         if (!file_exists($full_path)) {
             return "<!-- SVG file not found: " . $path . " -->";
         }
