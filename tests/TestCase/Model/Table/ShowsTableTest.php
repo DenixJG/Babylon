@@ -76,4 +76,37 @@ class ShowsTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test getById method
+     *
+     * @return void
+     * @uses \App\Model\Table\ShowsTable::getById()
+     */
+    public function testGetById(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test getByTmdbId method
+     *
+     * @return void
+     * @uses \App\Model\Table\ShowsTable::getByTmdbId()
+     */
+    public function testGetByTmdbId(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test parseDataToEntity method
+     *
+     * @return void
+     * @uses \App\Model\Table\ShowsTable::parseDataToEntity()
+     */
+    public function testParseDataToEntity(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

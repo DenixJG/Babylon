@@ -76,6 +76,17 @@ class SeasonsTableTest extends TestCase
     }
 
     /**
+     * Test getByTmdbId method
+     *
+     * @return void
+     * @uses \App\Model\Table\SeasonsTable::getByTmdbId()
+     */
+    public function testGetByTmdbId(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
      * Test parseDataToEntity method
      *
      * @return void
