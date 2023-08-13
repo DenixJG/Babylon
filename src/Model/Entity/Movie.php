@@ -14,6 +14,7 @@ use Cake\ORM\Entity;
  * @property string $title
  * @property string|null $original_title
  * @property \Cake\I18n\FrozenDate $release_date
+ * @property string|null $overview
  * @property bool|null $is_deleted
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
@@ -41,6 +42,7 @@ class Movie extends Entity
         'title' => true,
         'original_title' => true,
         'release_date' => true,
+        'overview' => true,
         'is_deleted' => true,
         'created' => true,
         'modified' => true,

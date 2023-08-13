@@ -68,6 +68,15 @@ $this->Breadcrumbs->add(__d('breadcrumbs', 'Edit'), null, ['class' => 'breadcrum
                     ],
                 ]); ?>
             </div>
+            <div class="col-12 mb-15 mb-xl-5">
+                <?= $this->Form->control('overview', [
+                    'class' => 'text-dark-light form-control',
+                    'label' => [
+                        'class' => 'text-gray-600 form-label',
+                        'text'  => __d('shows', 'Overview/Description')
+                    ]
+                ]); ?>
+            </div>
         </div>
 
         <div class="row mb-10">

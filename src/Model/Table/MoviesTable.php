@@ -99,6 +99,10 @@ class MoviesTable extends Table
             ->notEmptyDate('release_date');
 
         $validator
+            ->scalar('overview')
+            ->allowEmptyString('overview');
+
+        $validator
             ->boolean('is_deleted')
             ->allowEmptyString('is_deleted');
 
@@ -184,10 +188,12 @@ class MoviesTable extends Table
         $movie->tmdb_id        = $remote_data['id'];
         $movie->title          = $remote_data['title'];
         $movie->original_title = $remote_data['original_title'] ?? null;
+        $movie->overview       = $remote_data['overview'] ?? null;
 
         try {
             $movie->release_date = FrozenDate::parse($remote_data['release_date']);
         } catch (\Exception $e) {
+            \Cake\Log\Log::error(print_r('Error parsing date: ' . $remote_data['release_date'], true));
         }
 
         $movie_status     = $this->MovieStatuses->getDynamicStatus($remote_data['release_date']);
