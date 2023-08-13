@@ -53,7 +53,7 @@ class MoviesTable extends Table
 
         $this->belongsTo('MovieStatuses', [
             'foreignKey' => 'status_id',
-            'joinType' => 'INNER',
+            'joinType'   => 'INNER',
         ]);
         $this->hasMany('MovieDirectors', [
             'foreignKey' => 'movie_id',
@@ -87,6 +87,11 @@ class MoviesTable extends Table
             ->maxLength('title', 255)
             ->requirePresence('title', 'create')
             ->notEmptyString('title');
+
+        $validator
+            ->scalar('original_title')
+            ->maxLength('original_title', 255)
+            ->allowEmptyString('original_title');
 
         $validator
             ->date('release_date')
@@ -166,15 +171,24 @@ class MoviesTable extends Table
      * Parse remote data to local entity data
      *
      * @param array $remote_data Remote data array
-     * @return \App\Model\Entity\Movie
+     * @return \App\Model\Entity\Movie|null
      */
     public function parseDataToEntity(array $remote_data)
     {
         $movie = $this->newEmptyEntity();
 
-        $movie->tmdb_id      = $remote_data['id'];
-        $movie->title        = $remote_data['title'];
-        $movie->release_date = FrozenDate::parse($remote_data['release_date']);
+        if (empty($remote_data['title']) && empty($remote_data['original_title'])) {
+            return null;
+        }
+
+        $movie->tmdb_id        = $remote_data['id'];
+        $movie->title          = $remote_data['title'];
+        $movie->original_title = $remote_data['original_title'] ?? null;
+
+        try {
+            $movie->release_date = FrozenDate::parse($remote_data['release_date']);
+        } catch (\Exception $e) {
+        }
 
         $movie_status     = $this->MovieStatuses->getDynamicStatus($remote_data['release_date']);
         $movie->status_id = $movie_status->id;

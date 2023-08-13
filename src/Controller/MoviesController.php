@@ -32,6 +32,7 @@ class MoviesController extends AppController
     public function index()
     {
         $paginate_settings = [
+            'limit' => 10,
             'contain' => ['MovieStatuses'],
             'conditions' => ['Movies.is_deleted' => false],
         ];

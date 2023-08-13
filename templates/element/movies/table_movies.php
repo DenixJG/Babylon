@@ -11,6 +11,7 @@
         <thead>
             <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">                
                 <?= $this->Paginator->sort('Movies.title', __d('movies', 'Title'), ['escape' => false]); ?>
+                <?= $this->Paginator->sort('Movies.original_title', __d('movies', 'Original Title'), ['escape' => false]); ?>
                 <?= $this->Paginator->sort('MovieStatuses.name', __d('movies', 'Status'), ['escape' => false]); ?>
                 <?= $this->Paginator->sort('Movies.release_date', __d('movies', 'Release'), ['escape' => false]); ?>
                 <th class="text-end min-w-70px"><?= __d('movies', 'Actions') ?></th>
@@ -20,6 +21,7 @@
             <?php foreach ($movies as $movie) : ?>
                 <tr>                    
                     <td><?= $movie->title ?? '' ?></td>
+                    <td><?= $movie->original_title ?? '' ?></td>
                     <td><?= $movie->movie_status->name ?? '' ?></td>
                     <td><?= $movie->release_date->toDateString() ?? '' ?></td>
                     <td class="text-end">

@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property int|null $tmdb_id
  * @property int $status_id
  * @property string $title
+ * @property string|null $original_title
  * @property \Cake\I18n\FrozenDate $release_date
  * @property bool|null $is_deleted
  * @property \Cake\I18n\FrozenTime|null $created
@@ -38,6 +39,7 @@ class Movie extends Entity
         'tmdb_id' => true,
         'status_id' => true,
         'title' => true,
+        'original_title' => true,
         'release_date' => true,
         'is_deleted' => true,
         'created' => true,
