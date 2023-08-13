@@ -25,10 +25,11 @@ class MoviesFixture extends TestFixture
                 'title' => 'Lorem ipsum dolor sit amet',
                 'original_title' => 'Lorem ipsum dolor sit amet',
                 'release_date' => '2023-08-13',
+                'overview' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
                 'is_deleted' => 1,
-                'created' => '2023-08-13 18:43:54',
-                'modified' => '2023-08-13 18:43:54',
-                'deleted_date' => '2023-08-13 18:43:54',
+                'created' => '2023-08-13 20:45:23',
+                'modified' => '2023-08-13 20:45:23',
+                'deleted_date' => '2023-08-13 20:45:23',
             ],
         ];
         parent::init();
