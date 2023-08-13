@@ -23,11 +23,12 @@ class MoviesFixture extends TestFixture
                 'tmdb_id' => 1,
                 'status_id' => 1,
                 'title' => 'Lorem ipsum dolor sit amet',
-                'release_date' => '2023-08-05',
+                'original_title' => 'Lorem ipsum dolor sit amet',
+                'release_date' => '2023-08-13',
                 'is_deleted' => 1,
-                'created' => '2023-08-05 18:24:46',
-                'modified' => '2023-08-05 18:24:46',
-                'deleted_date' => '2023-08-05 18:24:46',
+                'created' => '2023-08-13 18:43:54',
+                'modified' => '2023-08-13 18:43:54',
+                'deleted_date' => '2023-08-13 18:43:54',
             ],
         ];
         parent::init();
