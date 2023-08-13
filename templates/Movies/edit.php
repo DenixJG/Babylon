@@ -14,36 +14,57 @@ $this->Breadcrumbs->add(__d('breadcrumbs', 'Edit'), null, ['class' => 'breadcrum
     <div class="card-body py-10">
         <?= $this->Form->create($movie, ['id' => 'movie-new-form', 'novalidate' => true]); ?>
         <?= $this->Form->hidden('id', ['value' => $movie->id]); ?>
-        <h2 class=""><?= __d('movies', 'Movie Data'); ?></h2>
+        <h2 class="">
+            <?= __d('movies', 'Edit Movie'); ?>
+        </h2>
         <hr class="separator-dashed">
         <div class="row mb-10">
-            <div class="col-12 col-xl-6 mb-15 mb-xl-5">
+            <div class="col-12 col-xl-5 mb-15 mb-xl-5">
                 <?= $this->Form->control('title', [
                     'class' => 'text-dark-light form-control',
                     'label' => [
                         'class' => 'text-gray-600 form-label',
-                        'text' => __d('movies', 'Title')
+                        'text'  => __d('movies', 'Title')
                     ]
                 ]); ?>
             </div>
-            <div class="col-6 col-xk-6 mb-xl-5">
-                <?= $this->Form->control('status_id', [
-                    'type' => 'select',
-                    'options' => $movieStatuses,
-                    'class' => 'text-dark-light form-select',
+            <div class="col-12 col-xl-5 mb-15 mb-xl-5">
+                <?= $this->Form->control('original_title', [
+                    'class' => 'text-dark-light form-control',
                     'label' => [
                         'class' => 'text-gray-600 form-label',
-                        'text' => __d('movies', 'Status'),
-                    ],
-                    'empty' => __d('events', '- Select -'),
+                        'text'  => __d('movies', 'Original Title')
+                    ]
                 ]); ?>
             </div>
-            <div class="col-6 col-xl-6 mb-xl-5">
+            <div class="col-12 col-xl-2 mb-15 mb-xl-5">
+                <?= $this->Form->control('tmdb_id', [
+                    'type'  => 'text',
+                    'class' => 'text-dark-light form-control',
+                    'label' => [
+                        'class' => 'text-gray-600 form-label',
+                        'text'  => __d('movies', 'TMDB ID')
+                    ]
+                ]); ?>
+            </div>
+            <div class="col-12 col-xl-5 mb-xl-5">
+                <?= $this->Form->control('status_id', [
+                    'type'    => 'select',
+                    'options' => $movieStatuses,
+                    'class'   => 'text-dark-light form-select',
+                    'label'   => [
+                        'class' => 'text-gray-600 form-label',
+                        'text'  => __d('movies', 'Status'),
+                    ],
+                    'empty'   => __d('events', '- Select -'),
+                ]); ?>
+            </div>
+            <div class="col-12 col-xl-2 mb-xl-5">
                 <?= $this->Form->control('release_date', [
                     'class' => 'text-dark-light form-control',
                     'label' => [
                         'class' => 'text-gray-600 form-label',
-                        'text' => __d('movies', 'Release Date'),
+                        'text'  => __d('movies', 'Release Date'),
                     ],
                 ]); ?>
             </div>
@@ -55,10 +76,10 @@ $this->Breadcrumbs->add(__d('breadcrumbs', 'Edit'), null, ['class' => 'breadcrum
                     '<i class="fas fa-angle-left mb-1"></i>' . __d('buttons', 'Go back'),
                     [
                         'controller' => 'Movies',
-                        'action' => 'index'
+                        'action'     => 'index'
                     ],
                     [
-                        'class' => 'btn btn-lg btn-secondary me-3 my-2',
+                        'class'  => 'btn btn-lg btn-secondary me-3 my-2',
                         'escape' => false
                     ]
                 ) ?>
@@ -68,14 +89,14 @@ $this->Breadcrumbs->add(__d('breadcrumbs', 'Edit'), null, ['class' => 'breadcrum
                     __d('buttons', 'Save'),
                     [
                         'controller' => 'Movies',
-                        'action' => 'edit', $movie->id
+                        'action'     => 'edit', $movie->id
                     ],
                     [
                         'class' => 'btn btn-lg btn-primary me-3 my-2',
-                        'id' => 'btn-save-movie'
+                        'id'    => 'btn-save-movie'
                     ]
                 )
-                ?>
+                    ?>
                 <a href="javascript:;" class="btn btn-lg btn-primary me-3 my-2 d-none" id="btn-save-user-spinner">
                     <span class="spinner-border spinner-border-sm me-4" role="status" aria-hidden="true"></span>
                     <?= __d('buttons', 'Save'); ?>
