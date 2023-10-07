@@ -41,8 +41,8 @@ function initOpenModal() {
                 role_id: $(btn).data("role-id"),
             },
             dataType: "json",
-        }).then(async function (response) {
-            await $("#roles-modal-content").html(response.content);
+        }).then(function (response) {
+            $(`#${response.action}-modal-content`).html(response.content);
 
             initModalEvents(modal);
         });
@@ -70,11 +70,23 @@ function manageDataRole(formElement) {
         console.log(response);
 
         if (response.status === 200) {
-            $(".modal.roles-edit-modal").modal("hide");
+            $(`.modal.${response.modal_class}`).modal("hide");
             Utils.showToast("success", response.message);
+
+            window.location.reload();
         } else {
-            $("#roles-modal-content").html(response.content);
+            $(`#${response.action}-modal-content`).html(response.content);
             Utils.showToast("error", response.message);
         }
+    });
+}
+
+function updateRolesList() {
+    Utils.sendAjaxRequest("/roles/ajax", {
+        method: "POST",
+        action: "update-roles-list",
+        dataType: "json",
+    }).then(function (response) {
+        $("#roles-list").html(response.content);
     });
 }
