@@ -19,7 +19,7 @@
         "php-http/cache-plugin": "^1.8",
         "php-tmdb/api": "^4",
         "ramsey/uuid": "^4.7",
-        "symfony/cache": "^5.4",
+        "symfony/cache": "^6.3",
         "symfony/event-dispatcher": "^6.3"
     },
     "require-dev": {
